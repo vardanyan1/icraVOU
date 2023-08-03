@@ -1,0 +1,97 @@
+NVSS Condon et al. 1998, AJ, 115, 1693!
+FIRST White et al. 1997, ApJ, 475 479!
+SUMSS Manch et al. 2003, MNRAS, 342, 1117!
+VLASSQL Gordon et al. 2020, RNAAS, 4, 10!
+2SXPS Evans et al. 2020, ApJS, 247, 54!
+SDS82 Brandt and Giommi in preparation!
+1OUSX Giommi et al. in preparation!
+RASS Boller et al. 2016, A&A, 103, 1!
+XMMSL2 Saxton et al. 2008, A&A, 480, 611!
+4XMM-DR11 Webb et al. A&A, 641, A136!
+BMW Panzera et al. 2003, A&A, 399, 351!
+WGACAT White et al. 2000, VizieR, IX/31/wgacat!
+IPC2E Harris et al. 1990, VizieR, IX/13/2e!
+IPCSL Elvis et al. 1992, ApJS, 80, 257!
+Chandra-CSC2 Evans et al. 2010, ApJS, 189, 37!
+MAXI TBD!
+eROSITA-EDR Brunner et al., 2022, A&A, 661, A1!
+ZWCLUSTERS Zwicky et al. 1968, VizieR, VII/190!
+PSZ2 The Planck Collaboration, 2016, A&A, 594, A27!
+ABELL Abell et al. 1989, ApJS, 70, 1!
+MCXC Piffaretti et al. 2011, A&A, 534, A109!
+5BZCat Massaro et al. 2015, Ap&SS, 357, 75!
+SDSSWHL Wen et al. 2009, ApJS, 183, 197!
+SWXCS Liu et al. 2015, ApJS, 216, 2!
+3HSP Chang et al. 2019, A&A, 632, A77!
+FermiGRB Ajello et al. 2019, ApJ, 878, 52!
+MilliQuas (v7.2) Flesch et al. 2015, PASA, 32, e010!
+BROS Itoh et al., in prep!
+MST12Y Campana and Massaro E., 2021, A&A, 652, A6!
+PULSAR Manchester et al. 2005, AJ, 129, 1993!
+F2PSR The Fermi-LAT Collaboration, 2013!
+F357cat Bruzewski et al. 2021, arXiv:2102.07397!
+XRTDEEP Brandt et al. in preparation!
+WISH352 De Bruce et al. 2002, A&A, 394, 59!
+GLEAM Hurley-Walker et al. 2017, MNRAS, 464, 1164!
+TGSS150 Intema et al. 2017, A&A, 598, A781!
+VLSSR Lane et al. 2014, MNRAS, 440,327!
+LoTSS Shimwell et al. 2019, A&A, 622, A1!
+PMN Griffith et al. 1993-1996, VizieR, VIII/38!
+GB6 Gregory et al. 1996, ApJS, 103, 427!
+GB87 Gregory et al. 1992, VizieR, VIII/14/j2000!
+ATPMN McConnell et al. 2012, MNRAS, 422, 1527!
+AT20G Murphy et al. 2010, MNRAS, 402, 2403!
+NORTH20 White and Becker, 1992, ApJS, 79, 331!
+CRATES Healey et al. 2007, ApJS, 171, 61! 
+F357det Bruzewski et al. 2021, arXiv:2102.07397!
+KUEHR Kuehr et al. 1981, A&AS, 45, 367!
+PCNT The Planck Collaboration 2018, A&A, 619, A94!
+PCCS30 The Planck Collaboration 2018, A&A, 619, A94!
+PCCS44 The Planck Collaboration 2018, A&A, 619, A94!
+PCCS70 The Planck Collaboration 2018, A&A, 619, A94!
+PCCS100 The Planck Collaboration 2018, A&A, 619, A94!
+PCCS143 The Planck Collaboration 2018, A&A, 619, A94!
+PCCS217 The Planck Collaboration 2018, A&A, 619, A94!
+PCCS353 The Planck Collaboration 2018, A&A, 619, A94!
+PCCS2 The Planck Collaboration 2018, A&A, 619, A94!
+ALMA Bonato et al. 2019, MNRAS, 485, 1188!
+SPIRE Schulz et al. 2017, arXiv:1706.00448!
+H-ATLAS-DR1 Valiante et al. 2016, MNRAS, 462, 3146!  
+H-ATLAS-DR2 Maddox et al. 2018, ApJS, 236, 30!
+H-ATLAS-DR2NGP Maddox et al. 2018, ApJS, 236, 30
+H-ATLAS-DR2SGP Maddox et al. 2018, ApJS, 236, 30
+AKARIBSC Yamamura et al. 2010, VizieR, II, 298!
+IRAS-PSC IPAC, 1986, VizieR, II, 125!
+WISE Wright et al. 2010, AJ, 140, 1868!
+WISEME Wright et al. 2010, AJ, 140, 1868!
+NEOWISE Mainzer et al. 2014, ApJ, 792, 30!
+UNWISE Schlafly et al. 2019, ApJS, 240, 30!
+RACS Hale et al. 2021, PASA, 38, e058!
+2MASS Skrutskie et al. 2006, AJ, 131, 1163!
+USNO Monet et al. 2003, AJ, 125, 984!
+SDSS Abolfathi et al. 2018, ApJS, 235, 42!
+HSTGSC Lasker et al. 2008, AJ, 136, 735!
+PanSTARRS Flewelling et al. 2020, ApJS, 251, 7!
+GAIA The Gaia Collaboration 2016, A&A, 595, A2!
+SMARTS Bonning et al. 2012, ApJ 756, 13!
+UVOT Yershov et al. 2014, Ap&SS, 354, 97!
+GALEX Morrissey et al. 2007, ApJS, 173, 682!
+XMMOM Page et al. 2012, MNRAS, 426, 903!
+CMA TBD!
+XRTSPEC Giommi et al. 2021, MNRAS, 507, 5690!
+OUSXB Giommi et al. 2019, A&A, 631, A116!
+OUSXG Giommi et al. 2020, A&A submitted!
+OULC Giommi et al. 2021, MNRAS, 507, 5690!
+BAT105m Oh et al. 2018, ApJS, 235, 4!
+BEPPOSAX Giommi et al. 2002, Babs. conf.!
+NuBlazar Middei et al. 2022, MNRAS, 514, 3179!
+3FHL The Fermi-LAT Collaboration 2017, ApJS, 323, 18!
+2FHL Ackermann et al. 2016, ApJS, 222, 1!
+3FGL Acero et al. 2015, ApJS, 218, 23!
+2BIGB Arsioli et al. 2020, MNRAS, 493, 2438!
+4FGL-DR3 The Fermi-LAT Collaboration 2022, arXiv:2201.11184!
+2AGILE Bulgarelli et al. 2019, A&A, 627, A13!
+FermiMeV Principe et al. 2018, A&A, 618, A22! 
+FMonLC Fermi Monitored sources! 
+VERITAS TBD!
+MAGIC TBD!
