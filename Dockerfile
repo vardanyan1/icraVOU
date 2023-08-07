@@ -80,8 +80,17 @@ RUN chmod +x ./bin/vou-blazars-hybrid.sh
 # Copy the Python script to the container
 COPY app.py .
 
+# Create user 'narek' and set it as the current user
+RUN useradd -u 1001 -m narek
+
+# Create the working directory and change its owner to 'narek'
+RUN mkdir -p /work_dir && chown narek:narek /work_dir
+
 # Define a volume for the /work_dir directory
 VOLUME /work_dir
+
+# Set the user for subsequent commands
+USER narek
 
 # Set the entrypoint command to run the Python script
 ENTRYPOINT ["python2", "app.py"]
