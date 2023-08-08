@@ -23,7 +23,7 @@ c within a knwon cluster of galaxy. This is to warn that the X-ray could be
 c extended and due to the cluster rather than from the radio source.
 c
       IMPLICIT none
-      INTEGER*4 ier, lu_in, in,k, length,im,is,ie, i, j,l
+      INTEGER*4 ier, lu_in, in,k, length,im,is,ie, i, j,l,ii,ij
       INTEGER*4 lenact,source_type,type_average,types(0:5)
       INTEGER*4 no_found,sfound,rfound,s,aim,xray_type,ncat,ifound
       INTEGER*4 iradio,ixmm,irosat,iswift,iipc,iother,ichandra,ibmw
@@ -40,6 +40,7 @@ c
       real*4 major,minor,posang,posxerr,posyerr
       real*4 errrad,errmaj,errmin,errang,mjdavg
       CHARACTER*1 sign
+      CHARACTER*100 output_file_gamma
       CHARACTER*200 input_file,output_file,output_file2,output_file3
       character*200 output_file4,webprograms,array_size!,output_file5
       CHARACTER*15 catalog
@@ -170,12 +171,14 @@ c 15 arcsecs
          STOP
       ENDIF
 
+      output_file_gamma='tmp/gammacandidates.csv'
       array_size=webprograms(1:lenact(webprograms))//'/array_size.cf'
       open(lu_in,file=input_file,status='old',iostat=ier)
       open(11,file=output_file,status='unknown',iostat=ier)
       open(13,file=output_file2,status='unknown',iostat=ier)
       open(14,file=output_file4,status='unknown',iostat=ier)
       open(12,file=output_file3,status='unknown',iostat=ier)
+      open(19,file=output_file_gamma,status='unknown',iostat=ier)
       open(18,file=array_size,status='old',iostat=ier)
       IF (ier.NE.0) THEN
         write (*,*) ' Error ',ier,' opening file ', input_file
@@ -3220,10 +3223,22 @@ c         new_source = .TRUE.
       WRITE (*,*) '      '
       if (igam-igrb .gt. 0) then
          write(*,*) 'Gamma-ray sources'
+         ii = 1000
          do i=1,igam
             if ((bigbind(i) .eq. 1) .or. (namegam(i)(1:5) /= '2BIGB')) then
                if ((namegam(i)(1:3) /= 'GRB') .and. (namegam(i)(1:5) /= 'Radio')) write(*,*) namegam(i),ra_gam(i),dec_gam(i)
+               IF (namegam(i)(1:4) =='4LAC') THEN 
+                  ii = ii+1
+                  write(19,"(i4,' , ',f9.5,' , ',f9.5,' , ',a)") ii,ra_gam(i),dec_gam(i),namegam(i)
+               ENDIF
             endif
+         enddo
+         ij = 2000
+         do i=1,igam
+               IF (namegam(i)(1:5) =='4FGL-') THEN
+                  ij = ij+1
+                  write(19,"(i4,' , ',f9.5,' , ',f9.5,' , ',a)") ij,ra_gam(i),dec_gam(i),namegam(i)
+               ENDIF
          enddo
       endif
       WRITE (*,*) '      '

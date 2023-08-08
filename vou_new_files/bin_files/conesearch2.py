@@ -106,11 +106,12 @@ if __name__ == "__main__":
     parser.add_argument("--db", type=str, help="cats1/2.ini file (d/f=none)", default='none')
     parser.add_argument("--catalog", type=str, help="catalog name  (d/f=none)", default='none')
     parser.add_argument("--output", type=str, help="output file  (d/f=none)", default='none')
+    parser.add_argument("--timeout_time", type=int, help="timeout in seconds (d/f=30)", default='30')
     parser.add_argument("--verbosity", type=str, help="verbosity level of the output (d/f=3)", default='3')
 
     args = parser.parse_args()
     verbosity = args.verbosity
-
+    timeout_seconds = args.timeout_time
     if args.runit == 'arcmin':
        radius = float(args.radius)/60.
     elif args.runit == 'degrees':
@@ -119,7 +120,7 @@ if __name__ == "__main__":
        radius = float(args.radius)/3600.
     else:
        print ('Unknown radius units. Allowed values are degrees, arcmin or arcsec ')
-       exit(20)
+       exit()
 
     if (args.db != 'none') & (args.catalog != 'none'):
        catalog = args.catalog
@@ -129,9 +130,8 @@ if __name__ == "__main__":
           columns = result['columns']
        else:
           print ('Catalog not found')
-          exit(20)
+          exit(0)
     try: 
-       timeout_seconds = 30
        signal.signal(signal.SIGALRM, timeout_handler)
        signal.alarm(timeout_seconds)
 
@@ -141,10 +141,10 @@ if __name__ == "__main__":
        exit(20)
     except requests.RequestException as e:
        print("Error retrieving catalog information:", e)
-       exit(20)
+       exit(0)
     except Exception as e:
        print("An error occurred:", e)
-       exit(20)
+       exit(0)
 
     input_names = columns.split(',')
     matching_indices = [names_array.index(name) if name in names_array else None for name in input_names]
@@ -155,7 +155,6 @@ if __name__ == "__main__":
        columns_values = [line.split(',') for line in lines]
 
     if args.print_field_names == 'y':
-#       print(fields_separated_by_commas)
         for j in range(0,len(columns_values)):
            if len(names_array) != len(columns_values[j]):
               print("Error: The arrays must have the same length.")

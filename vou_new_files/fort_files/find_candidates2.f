@@ -723,9 +723,11 @@ c     &                   filen,catalog,ra,dec,repflux(1:lenact(repflux))
                is=ie
                ie=index(string(is+1:len(string)),',')+is
                if (is .ne. ie-1) read(string(is+1:ie-1),*)flux_4p8(i4p8,2)
+c               print *,' flux_4p8(i4p8,2) ',flux_4p8(i4p8,2)
                is=ie
                ie=index(string(is+1:len(string)),',')+is
                if (is .ne. ie-1) read(string(is+1:ie-1),*)Ferr_4p8(i4p8,2)
+c               print *,' Ferr_4p8(i4p8,2) ',Ferr_4p8(i4p8,2)
                FluxU_4p8(i4p8,2)=flux_4p8(i4p8,2)+Ferr_4p8(i4p8,2)
                FluxL_4p8(i4p8,2)=flux_4p8(i4p8,2)-Ferr_4p8(i4p8,2)
                flux_4p8(i4p8,2)=flux_4p8(i4p8,2)*flux2nufnu_4p8*(8.6/4.8)
@@ -757,7 +759,7 @@ c     &                   filen,catalog,ra,dec,repflux(1:lenact(repflux))
                posyerr=2*10.*10**(-posyerr)
                poserr_4p8(i4p8)=sqrt((posxerr*posxerr)+(posyerr*posyerr))
                f4p8_type(i4p8)='ATPMN'
-               if (flag_4p8(i4p8,2) == '1') flux_4p8(i4p8,1:2)=-flux_4p8(i4p8,1:2)
+c               if (flag_4p8(i4p8,2) == '1') flux_4p8(i4p8,1:2)=-flux_4p8(i4p8,1:2)
             else if (catalog(1:4) == 'at20') THEN
                is=ie
                ie=index(string(is+1:len(string)),',')+is
