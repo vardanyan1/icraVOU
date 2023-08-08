@@ -89,6 +89,8 @@ RUN mkdir -p /work_dir && chown narek:narek /work_dir
 # Define a volume for the /work_dir directory
 VOLUME /work_dir
 
+RUN chown -R narek:narek /VOU_Blazars
+
 # Set the user for subsequent commands
 USER narek
 
