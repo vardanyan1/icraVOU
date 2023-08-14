@@ -332,11 +332,11 @@ do
 done
 echo
 echo  phase 1 completed
-noOfCats=`ls tmp/${pidnm}*.1.csv 2>/dev/null | wc -l`
-if [ $noOfCats == 0 ]; then
-  echo "There are no blazar candidates in this field"
-  exit 0;
-fi
+#noOfCats=`ls tmp/${pidnm}*.1.csv 2>/dev/null | wc -l`
+#if [ $noOfCats == 0 ]; then
+#  echo "There are no blazar candidates in this field"
+#  exit 0;
+#fi
 if [ -s tmp/${pidnm}voerror.txt ]; then
    checkvo=check
 fi
