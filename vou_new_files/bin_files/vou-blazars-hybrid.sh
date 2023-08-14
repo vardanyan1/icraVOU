@@ -1,12 +1,11 @@
 #!/bin/bash
 
+HERE=$(cd `dirname $BASH_SOURCE`; pwd) ##point to bin file and fortran file
 # Directory where the fortran binaries are:
+BINF="${HERE}/fort"
 #
 SITE='standard'
 #SITE='alternative'
-HERE=$(cd `dirname $BASH_SOURCE`; pwd) ##point to bin file and fortran file
-BINF="${HERE}/fort"
-#New
 if [ $SITE == 'alternative' ]; then
    cp ${HERE}/cats1.ini.alternative ${HERE}/cats1.ini
    cp ${HERE}/cats2.ini.alternative ${HERE}/cats2.ini
@@ -14,16 +13,15 @@ else
    cp ${HERE}/cats1.ini.orig.hybrid ${HERE}/cats1.ini
    cp ${HERE}/cats2.ini.orig.hybrid ${HERE}/cats2.ini
 fi
-#New
 
 handle_ps () {
     [ `which ps2eps 2> /dev/null` ] || return 0
     FILE_PS=$1
-    if [ $FILE_PS == tmp/${pidnm}sed.ps -o $FILE_PS == tmp/${pidnm}LC.ps -o $FILE_PS == tmp/${pidnm}LC_fermi.ps ]; then
-       ps2eps -B -q $FILE_PS -R +
-    else
-       ps2eps -B -q $FILE_PS
-    fi
+#    if [ $FILE_PS == tmp/${pidnm}sed.ps -o $FILE_PS == tmp/${pidnm}LC.ps -o $FILE_PS == tmp/${pidnm}LC_fermi.ps ]; then
+#       ps2eps -B -q $FILE_PS -R +
+#    else
+#       ps2eps -B -q $FILE_PS
+#    fi
     if [ $plotsed != N ]; then
     if [ `which open 2> /dev/null` ]; then
 #      open ${FILE_PS%.ps}.eps
@@ -240,19 +238,6 @@ if [ $runmode == -s ]; then #last parameter
    plotsed=N
 fi
 
-#echo $ranh $decnh $sfov $nhval $r1 $emaj1 $emin1 $posa1 $r2 $emaj2 $emin2 $posa2 $runmode
-
-#analyzing the XRT Deepsky data
-#if [ -n $dockerthere ]; then
-#docker run --name caldb chbrandt/heasoft_caldb:swift
-#alias swift_deepsky='docker run --rm -it --volumes-from caldb -v $PWD/work:/work chbrandt/swift_deepsky:latest'
-#swift_deepsky --ra $1 --dec $2 --radius $3
-#echo finish searching swift deep data
-#fi
-
-
-
-
 
 ##############################################################
 # FIRST PHASE
@@ -262,6 +247,7 @@ fi
 #FIRST phase data retrieving, runing the conesearch/conesearch2.py 1st phase
 rm -f tmp/${pidnm}*.1.csv
 rm -f tmp/${pidnm}vosearch.txt
+rm -f tmp/gammacandidates.csv
 if [ "$light" != "y" -a "$light" != "Y" ]; then
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog NVSS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}nvss.1.csv > tmp/${pidnm}vosearch.txt
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog FIRST --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}first.1.csv >> tmp/${pidnm}vosearch.txt
@@ -308,9 +294,9 @@ if [ $runmode == f ]; then #skip the catalogs that we don't plot its data on SED
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 4LAC-DR3 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4lacdr3.1.csv >> tmp/${pidnm}vosearch.txt
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog PULSAR --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}pulsar.1.csv >> tmp/${pidnm}vosearch.txt
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR3 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4fgldr3.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR4 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4fgldr4.1.csv >> tmp/${pidnm}vosearch.txt
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 3FHL --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}3fhl.1.csv >> tmp/${pidnm}vosearch.txt
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2BIGB --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}2bigb.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR4 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4fgldr4.1.csv >> tmp/${pidnm}vosearch.txt
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog MST12Y --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}mst12y.1.csv >> tmp/${pidnm}vosearch.txt
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FermiMeV --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}fmev.1.csv >> tmp/${pidnm}vosearch.txt
    echo conesearch --db ${HERE}/cats2.ini --catalog 2AGILE --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --columns default -o tmp/${pidnm}2agile.1.csv >> tmp/${pidnm}vosearch.txt
@@ -346,11 +332,15 @@ do
 done
 echo
 echo  phase 1 completed
+#noOfCats=`ls tmp/${pidnm}*.1.csv 2>/dev/null | wc -l`
+#if [ $noOfCats == 0 ]; then
+#  echo "There are no blazar candidates in this field"
+#  exit 0;
+#fi
 if [ -s tmp/${pidnm}voerror.txt ]; then
    checkvo=check
 fi
 #rm -f tmp/${pidnm}vosearch.txt
-
 #read the data
 ls tmp/${pidnm}*.1.csv > tmp/${pidnm}catlist1.txt
 #copy the XRTDEEP result and add to the catlist1
@@ -360,17 +350,15 @@ if [ -s work/$xrtnm/table_flux_detections.csv ]; then
 fi
 [ -s tmp/${pidnm}xrtdeep.csv ] && echo tmp/${pidnm}xrtdeep.csv >> tmp/${pidnm}catlist1.txt
 rm -f tmp/${pidnm}output1.csv
-#New convert format from new site to heasarc output format
+#convert format from new site to heasarc output format
 if [ $SITE == 'alternative' ]; then
-   python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}crates.1.csv crates
-   python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}pulsar.1.csv pulsar
-   python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}nvss.1.csv   nvss
-   python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}3fhl.1.csv   3fhl
+   python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}crates.1.csv crates
+   python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}pulsar.1.csv pulsar
+   python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}nvss.1.csv   nvss
+   python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}3fhl.1.csv   3fhl
 fi
-#New 
 echo
 [ -s tmp/${pidnm}catlist1.txt ] && ${BINF}/readcat tmp/${pidnm}catlist1.txt tmp/${pidnm}output1.csv $ranh $decnh $sfov $nhval $r1 $emaj1 $emin1 $posa1
-
 #running the PHASE 1
 rm -f tmp/${pidnm}*temp.txt
 if [ $runmode == s -o $runmode == l ]; then
@@ -390,8 +378,8 @@ else
    rm -f tmp/${pidnm}RX_temp.txt
    ${BINF}/gnomo_plot_types tmp/${pidnm}RX_sorted.txt,tmp/${pidnm}candidates_posix.txt,tmp/${pidnm}RX_map.ps/vcps,${BINF}, $ranh $decnh $r1 $sfov $ranh $decnh $emaj1 $emin1 $posa1 $r2 $emaj2 $emin2 $posa2 $ranh $decnh
    ${BINF}/gnomo_plot_types tmp/${pidnm}find_out_temp.txt,tmp/${pidnm}candidates_posix.txt,tmp/${pidnm}candidates.ps/vcps,${BINF}, $ranh $decnh $r1 $sfov $ranh $decnh $emaj1 $emin1 $posa1 $r2 $emaj2 $emin2 $posa2 $ranh $decnh
-   handle_ps tmp/${pidnm}RX_map.ps
-   handle_ps tmp/${pidnm}candidates.ps
+#   handle_ps tmp/${pidnm}RX_map.ps
+#   handle_ps tmp/${pidnm}candidates.ps
    if [ $plotlab == Y -o $plotlab == y ]; then
       open ${HERE}/../data/legend_cand.png
    fi
@@ -403,10 +391,6 @@ else
 #   rm -f RX_map.ps
 ##############################################################
 fi
-
-
-
-
 
 ##############################################################
 # Intermediate PHASE
@@ -431,13 +415,9 @@ if [ -s tmp/${pidnm}no_matched_temp.txt ]; then
    [ -z $radcrit ] && radcrit=1
    [ $radcrit -lt 1 ] && radcrit=1
    
-#   echo 'radcrit' $radcrit
    process=y
    [ ${pid} ] && process=n
    [ ${VOUB_AUTOSED} ] && process=n
-#   echo "Running Intermediate" $process $VOUB_AUTOSED
-#   rcut=0
-#   declare -i radint
    if [ $radcrit -ge 20 ]; then
       if [ -z ${VOUB_AUTOSED} ]; then
          echo
@@ -468,10 +448,8 @@ if [ -s tmp/${pidnm}no_matched_temp.txt ]; then
       echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PMN --ra $ranh --dec $decnh --radius $radint --runit arcmin --o tmp/${pidnm}pmn.i.csv >> tmp/${pidnm}vosearch.txt
       echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GB6 --ra $ranh --dec $decnh --radius $radint --runit arcmin --o tmp/${pidnm}gb6.i.csv >> tmp/${pidnm}vosearch.txt
       echo Searching further data in intermediate phase for $cc source
-#      ncatint=`cat tmp/${pidnm}vosearch.txt | wc -l`
       rm -f tmp/${pidnm}voerror.txt
       bash ${HERE}/queue.sh -f tmp/${pidnm}vosearch.txt -p $pidnm #1> voerror 2>&1
-#      cat voerror | grep 'ERROR'
 
 # check if there is error during the searching
       declare -i irunvo=1
@@ -480,12 +458,10 @@ if [ -s tmp/${pidnm}no_matched_temp.txt ]; then
       else
          voerror=no
       fi
-#      echo $voerror
       until [ $voerror == no -o $irunvo -ge 3 ]
 #      until [ $voerror == no -o $irunvo -ge 1 ]
       do
          runvo=y
-      #   [ -z $pid ] && read -p "Found error when searhcing through VO. Type 'n' to skip and continue; otherwise, rerun the VO conesearch" runvo
          [ -z $runvo ] && runvo=y
          cat tmp/${pidnm}voerror.txt > tmp/${pidnm}vosearch.txt
          rm -f tmp/${pidnm}voerror.txt
@@ -514,9 +490,6 @@ if [ -s tmp/${pidnm}no_matched_temp.txt ]; then
 
 #run the Intermediate phase
       echo
-# 111
-# testing 
-#      cat tmp/${pidnm}output_int.csv
       ${BINF}/find_candidates_int tmp/${pidnm}output_int tmp/${pidnm}no_matched_temp.txt tmp/${pidnm}find_out_temp.txt tmp/${pidnm}Intermediate_out.txt ${BINF}
    fi
 fi
@@ -524,7 +497,6 @@ fi
 #transfer the data from Intermediate phase to 2 phase
 if [ -s tmp/${pidnm}Intermediate_out.txt ]; then
    nint=`tail -1 tmp/${pidnm}Intermediate_out.txt | awk '{print $1}' `
-#   declare -i nint
    head -$nint tmp/${pidnm}Intermediate_out.txt >> tmp/${pidnm}find_out_temp.txt
    nnllint=`cat tmp/${pidnm}Intermediate_out.txt | wc -l`
    declare -i nsedl=$nnllint-$nint
@@ -533,9 +505,9 @@ if [ -s tmp/${pidnm}Intermediate_out.txt ]; then
 
 ###############################PLOTTING###############################
 #plot the candidates again with Intermediate phase finish ???
-   rm -f tmp/${pidnm}candidates.*ps
+#   rm -f tmp/${pidnm}candidates.*ps
    ${BINF}/gnomo_plot_types tmp/${pidnm}find_out_temp.txt,tmp/${pidnm}candidates_posix.txt,tmp/${pidnm}candidates.ps/vcps,${BINF}, $ranh $decnh $r1 $sfov $ranh $decnh $emaj1 $emin1 $posa1 $r2 $emaj2 $emin2 $posa2 $ranh $decnh
-   handle_ps tmp/${pidnm}candidates.ps
+#   handle_ps tmp/${pidnm}candidates.ps
 #    ps2eps -B -q candidates.ps
 #    open candidates.eps
 #    rm -f candidates.ps
@@ -591,10 +563,6 @@ if [ $runmode == f -a -d Results/$xrtnm ]; then
    echo \\end{figure} >> tmp/${pidnm}texcand.txt
 fi
 
-
-
-
-
 #######################################################
 # Second PHASE
 # aim: Plot the SED and error circle map for a specified source
@@ -616,22 +584,23 @@ if [ $runmode != s ]; then
    rrad=0
    rm -f candidates.png
    if [ $emaj1  != "0." ]; then 
-     python3.10 ~/app/skymap.py --ra $posra --dec $posdec --FOV $sfov --major $emaj1  --minor $emin1 --angle $posa1 --major2 $emaj2  --minor2 $emin2 --angle2 $posa2 --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png 
+     python3.10 ${HERE}/skymap.py --ra $posra --dec $posdec --FOV $sfov --major $emaj1  --minor $emin1 --angle $posa1 --major2 $emaj2  --minor2 $emin2 --angle2 $posa2 --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png 
    elif [ $r1 != "0." ]; then
-     python3.10 ~/app/skymap.py --ra $posra --dec $posdec --FOV $sfov --radius $r1 --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png 
+     python3.10 ${HERE}/skymap.py --ra $posra --dec $posdec --FOV $sfov --radius $r1 --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png 
    else  
-     python3.10 ~/app/skymap.py --ra $posra --dec $posdec --FOV $sfov --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png 
+     python3.10 ${HERE}/skymap.py --ra $posra --dec $posdec --FOV $sfov --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png 
    fi
    open candidates.png
 fi
 ######
+#if [ $runmode == f ]; then
+#  exit 0;
 #read the number interested
 until [ $source == sed -o $source == q -o $source == lcurve ]
 do
    if [ $runmode == f -a $source != nocand ]; then
       echo
       if [ -z $VOUB_AUTOSED ]; then
-#        cat tmp/${pidnm}phase1
         if [ -z $pid ]; then
            read -p "Please enter the source number and zoom in area (in arcsec) intered: (Type 'q' to quit) (Type 'candlist' to show all candidates)" source zzinput zoomin showsed
         else
@@ -644,35 +613,26 @@ do
            declare -i sourcenb
            sourcenb=`cat tmp/${pidnm}sources.list | wc -l`
            #sourcenb=${sourcenb}-1
-#               cat sources.list
-#           echo number of candidate ${sourcenb}
            if [ $VOUB_AUTOSED == part -a ${sourcenb} -gt 5 ]; then
-######              cat tmp/${pidnm}phase1 | tail -2 | head -1 |awk '{print $7 "\n" $8 "\n" $9 "\n" $10 "\n" $11}' > tmp/${pidnm}sources.list
              python ${HERE}/select_cand.py --RA_cent $ranh --Dec_cent $decnh --quiet --input_list "tmp/"{$pidnm}"find_out_temp.txt" --input_file "tmp/"{$pidnm}"Sed_temp.txt" --output_list "tmp/"$pidnm"sources.list"
            fi
         fi
-        #cat sources.list
-        #[ `wc -l tmp/${pidnm}sources.list | cut -d' ' -f1` == 0 ] && { source='q'; continue; }
         declare -i sourcenb
         sourcenb=`cat tmp/${pidnm}sources.list | wc -l`
         sourcenb=${sourcenb}-1
         if [ $sourcenb -ge 0 ]; then
            source=`head -1 tmp/${pidnm}sources.list`
-        #echo $sourcenb
-        #   echo ${sourcenb}
            cat tmp/${pidnm}sources.list | tail -${sourcenb} > tmp/${pidnm}sources.tmp
            mv tmp/${pidnm}sources.tmp tmp/${pidnm}sources.list
         else
            source=q
         fi
-      #elif [ $VOUB_AUTOSED=part ]; then
       fi
       ln=`cat tmp/${pidnm}find_out_temp.txt | wc -l`
    elif [ $runmode == s -o $runmode == l ]; then
       ln=1
       [ $runmode == s ] && source=sed
       [ $runmode == l ] && source=lcurve
-#      [ ! -f tmp/${pidnm}find_out_temp.txt ] && echo $1 $decnh 99 > tmp/${pidnm}find_out_temp.txt
       declare -i zoomintt #deal with non interger input
       declare -i zoomindd
       declare -i zoomin
@@ -706,7 +666,6 @@ do
          zoomindd=0
       fi
       zoomin=${zoomintt}*60+${zoomindd}
-      ####echo testtesttest $source $ln
    fi
 
 #check if need to output the SED file or not and deal with no input
@@ -738,7 +697,6 @@ do
          fi
       fi
    fi
-#   echo snr=$source redshift=$zzinput area=$zoomin sed=$showsed
 
 #read the find_out list and the second phase ra dec
    declare -i nn
@@ -754,7 +712,6 @@ do
          rar=$ranh
          decr=$decnh
          typer=99
-#         echo the mode $source
       fi
 
 #check if the source is BZ/WHSP already has matched, and echo the conessearch
@@ -763,7 +720,7 @@ do
          nn=$nn+1
          if [ $nn = $source -o $source == sed -o $source == lcurve ]; then
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog WISH352 --ra $rar --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}wish352.$nn.2.csv > tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog TGSS150 --ra $rar --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}tgss150.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog TGSS150 --ra $rar --dec $decr --radius 1.5 --runit arcmin --o tmp/${pidnm}tgss150.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog LoTSS --ra $rar --dec $decr --radius 30 --runit arcsec --o tmp/${pidnm}lotss.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog VLSSR --ra $rar --dec $decr --radius 30 --runit arcsec --o tmp/${pidnm}vlssr.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PMN --ra $rar --dec $decr --radius 45 --runit arcsec --o tmp/${pidnm}pmn.$nn.2.csv >> tmp/${pidnm}vosearch.txt
@@ -771,10 +728,10 @@ do
             echo  python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GB87 --ra $rar --dec $decr --radius 45 --runit arcsec --o tmp/${pidnm}gb87.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py  --db ${HERE}/cats2.ini --catalog AT20G --ra $rar --dec $decr --radius 30 --runit arcsec --o tmp/${pidnm}at20.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog ATPMN --ra $rar --dec $decr --radius 15 --runit arcsec --o tmp/${pidnm}atpmn.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog CRATES --ra $rar --dec $decr --radius 15 --runit arcsec --o tmp/${pidnm}crates.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog NORTH20 --ra $rar --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}north20.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog CRATES --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}crates.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog NORTH20 --ra $rar --dec $decr --radius 1.5 --runit arcmin --o tmp/${pidnm}north20.$nn.2.csv >> tmp/${pidnm}vosearch.txt
 #            echo conesearch --db ${HERE}/cats2.ini --catalog F357det --ra $rar --dec $decr --radius 10 --runit arcsec --columns default -o tmp/${pidnm}f357det.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS30 --ra $rar --dec $decr --radius 8 --runit arcmin --o tmp/${pidnm}pccs30.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS30 --ra $rar --dec $decr --radius 10 --runit arcmin --o tmp/${pidnm}pccs30.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS44 --ra $rar --dec $decr --radius 8 --runit arcmin  --o tmp/${pidnm}pccs44.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS70 --ra $rar --dec $decr --radius 6 --runit arcmin  --o tmp/${pidnm}pccs70.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS100 --ra $rar --dec $decr --radius 6 --runit arcmin  --o tmp/${pidnm}pccs100.$nn.2.csv >> tmp/${pidnm}vosearch.txt
@@ -812,7 +769,7 @@ do
             echo conesearch --db ${HERE}/cats2.ini --catalog NuBlazar --ra $rar --dec $decr --radius 20 --runit arcsec --columns default -o tmp/${pidnm}nublazar.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2FHL --ra $rar  --dec $decr --radius 10 --runit arcmin --o tmp/${pidnm}2fhl.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR3 --ra $rar --dec $decr --radius 8 --runit arcmin --o tmp/${pidnm}4fgldr3.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-#            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR4 --ra $rar --dec $decr --radius 8 --runit arcmin --o tmp/${pidnm}4fgldr4.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR4 --ra $rar --dec $decr --radius 8 --runit arcmin --o tmp/${pidnm}4fgldr4.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 3FHL --ra $rar  --dec $decr --radius 7 --runit arcmin --o tmp/${pidnm}3fhl.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2BIGB --ra $rar  --dec $decr --radius 10 --runit arcmin --o tmp/${pidnm}2bigb.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats2.ini --catalog 2AGILE --ra $rar  --dec $decr --radius 50 --runit arcmin --columns default -o tmp/${pidnm}2agile.$nn.2.csv >> tmp/${pidnm}vosearch.txt
@@ -822,7 +779,7 @@ do
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog WISEME --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}wiseme.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats2.ini --catalog OULC --ra $rar --dec $decr --radius 15 --runit arcsec --columns default -o tmp/${pidnm}oulc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             if [ $allcatalog == y -o $allcatalog == Y ]; then
-               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog NEOWISE --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}neowise.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog NEOWISE --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}neowise.$nn.2.csv --timeout 40 >> tmp/${pidnm}vosearch.txt
             fi
             if [ $SITE == 'standard' ]; then
                echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog KUEHR --ra $rar --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}kuehr.$nn.2.csv >> tmp/${pidnm}vosearch.txt
@@ -831,7 +788,7 @@ do
                echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog UVOT --ra $rar  --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}uvot.$nn.2.csv >> tmp/${pidnm}vosearch.txt
                echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FMonLC --ra $rar  --dec $decr --radius 30 --runit arcmin --o tmp/${pidnm}fmonlc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             fi
-            echo $rar $decr $typer $nn
+#            echo $rar $decr $typer $nn
             racand=$rar
             deccand=$decr
          fi
@@ -903,20 +860,20 @@ do
             nnn=$source
          fi 
          if [ $SITE == 'alternative' ]; then
-            python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}gb6.$nnn.2.csv gb6
-            python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}pccs44.$nnn.2.csv pcc
-            python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}pccs70.$nnn.2.csv pcc
-            python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}pccs100.$nnn.2.csv pcc
-            python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}pccs143.$nnn.2.csv pcc
-            python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}pccs217.$nnn.2.csv pcc
-            python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}pccs353.$nnn.2.csv pcc
-            python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}crates.$nnn.2.csv crates
-            python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}atpmn.$nnn.2.csv atpmn
-            python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}tgss150.$nnn.2.csv tgss150
+            python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}gb6.$nnn.2.csv gb6
+            python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}pccs44.$nnn.2.csv pcc
+            python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}pccs70.$nnn.2.csv pcc
+            python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}pccs100.$nnn.2.csv pcc
+            python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}pccs143.$nnn.2.csv pcc
+            python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}pccs217.$nnn.2.csv pcc
+            python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}pccs353.$nnn.2.csv pcc
+            python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}crates.$nnn.2.csv crates
+            python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}atpmn.$nnn.2.csv atpmn
+            python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}tgss150.$nnn.2.csv tgss150
          fi
 #New 
 # panstarrs is not working from vizier anymore so the format conversion need to be here
-         python3 ${BINF}/vizier2heasarc.py tmp/${pidnm}panstarrs.$nnn.2.csv panstarrs
+         python3 ${HERE}/vizier2heasarc.py tmp/${pidnm}panstarrs.$nnn.2.csv panstarrs
          if [ -s tmp/${pidnm}voerror.txt ]; then
             checkvo=check
          fi
@@ -924,7 +881,6 @@ do
          echo
       fi
       echo phase 2 completed
-#      echo ra , dec = $racand , $deccand
 
 #the nh value in phase 2
       if [ ! -z $nhthere ]; then
@@ -991,7 +947,7 @@ do
 #plot the SED
       echo
       if [ $runmode != l ]; then
-         ${BINF}/plot_sed tmp/${pidnm}Sed.txt tmp/${pidnm}sed.ps/cps ${BINF} $source
+#         ${BINF}/plot_sed tmp/${pidnm}Sed.txt tmp/${pidnm}sed.ps/cps ${BINF} $source
             handle_ps tmp/${pidnm}sed.ps
       fi
       echo
@@ -1016,8 +972,8 @@ do
       rm -f tmp/${pidnm}Out4SedTool.txt
       rased=`echo $racand | sed 's/\./_/g'`
       decsed=`echo $deccand | sed 's/\./_/g' | sed 's/-/m/g'`
-#      ${BINF}/convert_sed tmp/${pidnm}Sed.txt tmp/${pidnm}Out4SedTool.txt tmp/${pidnm}Sed.csv
-      python3.10 ${BINF}/convert_sed.py tmp/${pidnm}Sed.txt tmp/${pidnm}Out4SedTool.txt tmp/${pidnm}Sed.csv
+#      ${HERE}/convert_sed tmp/${pidnm}Sed.txt tmp/${pidnm}Out4SedTool.txt tmp/${pidnm}Sed.csv
+      python3.10 ${HERE}/convert_sed.py tmp/${pidnm}Sed.txt tmp/${pidnm}Out4SedTool.txt tmp/${pidnm}Sed.csv
       [ -d Results/SEDtool -a -f tmp/${pidnm}Out4SedTool.txt ] && cp tmp/${pidnm}Out4SedTool.txt Results/SEDtool/$rased"_"$decsed"_"sedtool.txt
       if [ $runmode != l -a $plotsed != N ]; then
          rm -f tmp/${pidnm}PySED.png
@@ -1027,13 +983,13 @@ do
 ##############################################################
 
 #save the phase 2 results in the folder
-      [ -d Results/$xrtnm -a -f tmp/${pidnm}sed.*ps ] && cp tmp/${pidnm}sed.*ps Results/$xrtnm/$source"_"sed.eps
-      [ -d Results/$xrtnm -a -f tmp/${pidnm}error_map.*ps ] && cp tmp/${pidnm}error_map.*ps Results/$xrtnm/$source"_"error_map.eps
-      [ -d Results/$xrtnm -a -f tmp/${pidnm}LC.*ps ] && cp tmp/${pidnm}LC.*ps Results/$xrtnm/$source"_"LC.eps
-      [ -d Results/$xrtnm -a -f tmp/${pidnm}LC_fermi.*ps ] && cp tmp/${pidnm}LC_fermi.*ps Results/$xrtnm/$source"_"LC_fermi.eps
+#      [ -d Results/$xrtnm -a -f tmp/${pidnm}sed.*ps ] && cp tmp/${pidnm}sed.*ps Results/$xrtnm/$source"_"sed.eps
+#      [ -d Results/$xrtnm -a -f tmp/${pidnm}error_map.*ps ] && cp tmp/${pidnm}error_map.*ps Results/$xrtnm/$source"_"error_map.eps
+#      [ -d Results/$xrtnm -a -f tmp/${pidnm}LC.*ps ] && cp tmp/${pidnm}LC.*ps Results/$xrtnm/$source"_"LC.eps
+#      [ -d Results/$xrtnm -a -f tmp/${pidnm}LC_fermi.*ps ] && cp tmp/${pidnm}LC_fermi.*ps Results/$xrtnm/$source"_"LC_fermi.eps
       [ -d Results/$xrtnm -a -f tmp/${pidnm}Sed.txt ] && cp tmp/${pidnm}Sed.txt Results/$xrtnm/$source"_"Sed.txt
       [ -d Results/$xrtnm -a -f tmp/${pidnm}Sed.csv ] && cp tmp/${pidnm}Sed.csv Results/$xrtnm/$source"_"Sed.csv
-      [ -d Results/$xrtnm -a -f tmp/${pidnm}output2.csv ] && cp tmp/${pidnm}output2.csv Results/$xrtnm/$source"_"output2.csv
+#      [ -d Results/$xrtnm -a -f tmp/${pidnm}output2.csv ] && cp tmp/${pidnm}output2.csv Results/$xrtnm/$source"_"output2.csv
 
 #save the results as a tex pdf
 #      cp sed.eps fortex/$source"_"sed.eps
@@ -1043,28 +999,28 @@ do
 #      cp RX_map.eps fortex/.
       
 #copy figure text to tex file
-      [ $runmode == f -a -d Results/$xrtnm ] && echo \\subsection{Candidate No. $source}  > tmp/${pidnm}texsed_$source.txt
-      [ $runmode == f -a -d Results/$xrtnm ] && echo Candidate position: $racand , $deccand >> tmp/${pidnm}texsed_$source.txt
-      [ $runmode == f -a -d Results/$xrtnm ] && echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
-      [ $runmode == f -a -d Results/$xrtnm ] && echo \\centering >> tmp/${pidnm}texsed_$source.txt
-      [ -d Results/$xrtnm -a -f tmp/${pidnm}sed.*ps ] && echo \\includegraphics[width=0.3\\linewidth]{Results/$xrtnm/$source"_"error_map.eps} >> tmp/${pidnm}texsed_$source.txt
-      [ -d Results/$xrtnm -a -f tmp/${pidnm}error_map.*ps ] && echo \\includegraphics[width=0.69\\linewidth]{Results/$xrtnm/$source"_"sed.eps} >> tmp/${pidnm}texsed_$source.txt
-      [ $runmode == f -a -d Results/$xrtnm ] && echo \\caption{Left: Error Circle Map. Right: SED.} >> tmp/${pidnm}texsed_$source.txt
-      [ $runmode == f -a -d Results/$xrtnm ] && echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
-      if [ -f tmp/${pidnm}LC.*ps -a -d Results/$xrtnm ]; then
-         echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
-         echo \\centering >> tmp/${pidnm}texsed_$source.txt
-         echo \\includegraphics[width=0.95\\linewidth]{Results/$xrtnm/$source"_"LC.eps} >> tmp/${pidnm}texsed_$source.txt
-         echo \\caption{Light Curve.} >> tmp/${pidnm}texsed_$source.txt
-         echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
-      fi
-      if [ -f tmp/${pidnm}LC_fermi.*ps -a -d Results/$xrtnm ]; then
-         echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
-         echo \\centering >> tmp/${pidnm}texsed_$source.txt
-         echo \\includegraphics[width=0.95\\linewidth]{Results/$xrtnm/$source"_"LC_fermi.eps} >> tmp/${pidnm}texsed_$source.txt
-         echo \\caption{Fermi gamma-ray Light Curve.} >> tmp/${pidnm}texsed_$source.txt
-         echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
-      fi
+#      [ $runmode == f -a -d Results/$xrtnm ] && echo \\subsection{Candidate No. $source}  > tmp/${pidnm}texsed_$source.txt
+#      [ $runmode == f -a -d Results/$xrtnm ] && echo Candidate position: $racand , $deccand >> tmp/${pidnm}texsed_$source.txt
+#      [ $runmode == f -a -d Results/$xrtnm ] && echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
+#      [ $runmode == f -a -d Results/$xrtnm ] && echo \\centering >> tmp/${pidnm}texsed_$source.txt
+#      [ -d Results/$xrtnm -a -f tmp/${pidnm}sed.*ps ] && echo \\includegraphics[width=0.3\\linewidth]{Results/$xrtnm/$source"_"error_map.eps} >> tmp/${pidnm}texsed_$source.txt
+#      [ -d Results/$xrtnm -a -f tmp/${pidnm}error_map.*ps ] && echo \\includegraphics[width=0.69\\linewidth]{Results/$xrtnm/$source"_"sed.eps} >> tmp/${pidnm}texsed_$source.txt
+#      [ $runmode == f -a -d Results/$xrtnm ] && echo \\caption{Left: Error Circle Map. Right: SED.} >> tmp/${pidnm}texsed_$source.txt
+#      [ $runmode == f -a -d Results/$xrtnm ] && echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
+#      if [ -f tmp/${pidnm}LC.*ps -a -d Results/$xrtnm ]; then
+#         echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
+#         echo \\centering >> tmp/${pidnm}texsed_$source.txt
+#         echo \\includegraphics[width=0.95\\linewidth]{Results/$xrtnm/$source"_"LC.eps} >> tmp/${pidnm}texsed_$source.txt
+#         echo \\caption{Light Curve.} >> tmp/${pidnm}texsed_$source.txt
+#         echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
+#      fi
+#      if [ -f tmp/${pidnm}LC_fermi.*ps -a -d Results/$xrtnm ]; then
+#         echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
+#         echo \\centering >> tmp/${pidnm}texsed_$source.txt
+#         echo \\includegraphics[width=0.95\\linewidth]{Results/$xrtnm/$source"_"LC_fermi.eps} >> tmp/${pidnm}texsed_$source.txt
+#         echo \\caption{Fermi gamma-ray Light Curve.} >> tmp/${pidnm}texsed_$source.txt
+#         echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
+#      fi
 
 #PID number for online version
       if [ $pid ]; then
@@ -1081,14 +1037,12 @@ do
 done
 
 # Make a tex pdf file
-if [ -d Results/$xrtnm ]; then
-   cat ${HERE}/headtex.txt > tmp/${pidnm}vou-blazars.tex
-   cat tmp/${pidnm}texcand.txt 2>/dev/null >> tmp/${pidnm}vou-blazars.tex
-   cat tmp/${pidnm}texsed_*.txt 2>/dev/null >> tmp/${pidnm}vou-blazars.tex
-   echo \\end{document} >> tmp/${pidnm}vou-blazars.tex
-#   pdflatex vou-blazars.tex
-#   open vou-blazars.pdf
-fi
+###if [ -d Results/$xrtnm ]; then
+###   cat ${HERE}/headtex.txt > tmp/${pidnm}vou-blazars.tex
+###   cat tmp/${pidnm}texcand.txt 2>/dev/null >> tmp/${pidnm}vou-blazars.tex
+###   cat tmp/${pidnm}texsed_*.txt 2>/dev/null >> tmp/${pidnm}vou-blazars.tex
+###   echo \\end{document} >> tmp/${pidnm}vou-blazars.tex
+###fi
 
 #remove the vo files from various catalogs
 rm -rf eada_files
@@ -1096,7 +1050,7 @@ rm -f tmp/${pidnm}*.1.csv
 rm -f tmp/${pidnm}*.i.csv
 rm -f tmp/${pidnm}*.2.csv
 rm -f tmp/${pidnm}xrtdeep.csv
-rm -f Results/$xrtnm/*.pdf
+###rm -f Results/$xrtnm/*.pdf
 rm -f vou-blazars.aux
 rm -f vou-blazars.log
 unset zoomin zzinput
