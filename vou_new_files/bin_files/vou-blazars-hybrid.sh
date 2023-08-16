@@ -158,9 +158,9 @@ else
 fi
 if [ -z $pid ]; then
    unset pidnm
-   test ! -d Results && mkdir Results
-   test ! -d Results/$xrtnm && mkdir Results/$xrtnm
-   test ! -d Results/SEDtool && mkdir Results/SEDtool
+###   test ! -d Results && mkdir Results
+###   test ! -d Results/$xrtnm && mkdir Results/$xrtnm
+###   test ! -d Results/SEDtool && mkdir Results/SEDtool
 else
    pidnm=${oupath}/${pid}"_"
 fi
@@ -298,7 +298,8 @@ if [ $runmode == f ]; then #skip the catalogs that we don't plot its data on SED
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2BIGB --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}2bigb.1.csv >> tmp/${pidnm}vosearch.txt
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR4 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4fgldr4.1.csv >> tmp/${pidnm}vosearch.txt
    echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog MST12Y --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}mst12y.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FermiMeV --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}fmev.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 1FLE --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}fmev.1.csv >> tmp/${pidnm}vosearch.txt
+#   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FermiMeV --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}oldfmev.1.csv >> tmp/${pidnm}vosearch.txt
    echo conesearch --db ${HERE}/cats2.ini --catalog 2AGILE --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --columns default -o tmp/${pidnm}2agile.1.csv >> tmp/${pidnm}vosearch.txt
 fi
 
@@ -332,11 +333,11 @@ do
 done
 echo
 echo  phase 1 completed
-#noOfCats=`ls tmp/${pidnm}*.1.csv 2>/dev/null | wc -l`
-#if [ $noOfCats == 0 ]; then
-#  echo "There are no blazar candidates in this field"
-#  exit 0;
-#fi
+noOfCats=`ls tmp/${pidnm}*.1.csv 2>/dev/null | wc -l`
+if [ $noOfCats == 0 ] && [$runmode != s]; then
+  echo "There are no blazar candidates in this field"
+  exit 0;
+fi
 if [ -s tmp/${pidnm}voerror.txt ]; then
    checkvo=check
 fi
@@ -544,7 +545,6 @@ if [ $runmode == f ]; then
    
 fi
 ######################################################################
-
 
 
 #save the phase 1 and phase intermediate results in the folder
@@ -773,7 +773,8 @@ do
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 3FHL --ra $rar  --dec $decr --radius 7 --runit arcmin --o tmp/${pidnm}3fhl.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2BIGB --ra $rar  --dec $decr --radius 10 --runit arcmin --o tmp/${pidnm}2bigb.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats2.ini --catalog 2AGILE --ra $rar  --dec $decr --radius 50 --runit arcmin --columns default -o tmp/${pidnm}2agile.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FermiMeV --ra $rar  --dec $decr --radius 20 --runit arcmin --o tmp/${pidnm}fmev.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 1FLE --ra $rar  --dec $decr --radius 20 --runit arcmin --o tmp/${pidnm}fmev.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+#   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FermiMeV --ra $ranh  --dec $decnh --radius 20  --runit arcmin --o tmp/${pidnm}oldfmev.1.csv >> tmp/${pidnm}vosearch.txt
             echo specsearch --db ${HERE}/cats2.ini --service MAGIC --ra $rar  --dec $decr --radius 5 --runit arcmin --columns default -o tmp/${pidnm}magictt.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo specsearch --db ${HERE}/cats2.ini --service VERITAS --ra $rar  --dec $decr --radius 5 --runit arcmin --columns default -o tmp/${pidnm}veritas.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog WISEME --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}wiseme.$nn.2.csv >> tmp/${pidnm}vosearch.txt
@@ -786,7 +787,7 @@ do
                echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GLEAM --ra $rar --dec $decr --radius 50 --runit arcsec --o tmp/${pidnm}gleam.$nn.2.csv >> tmp/${pidnm}vosearch.txt
                echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog XMMOM --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}xmmom.$nn.2.csv >> tmp/${pidnm}vosearch.txt
                echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog UVOT --ra $rar  --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}uvot.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FMonLC --ra $rar  --dec $decr --radius 30 --runit arcmin --o tmp/${pidnm}fmonlc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FMonLC --ra $rar  --dec $decr --radius 15 --runit arcmin --o tmp/${pidnm}fmonlc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             fi
 #            echo $rar $decr $typer $nn
             racand=$rar
@@ -956,10 +957,11 @@ do
          [ -f tmp/${pidnm}LC.ps ] && handle_ps tmp/${pidnm}LC.ps
          [ -f tmp/${pidnm}LC_fermi.ps ] && handle_ps tmp/${pidnm}LC_fermi.ps
       fi
-      rm -rf tmp/${pidnm}vou-aladin-error.html
-#      python3.10 ${HERE}/aladin_error_map.py --ra $racand --dec $deccand --input_file_error_circles tmp/${pidnm}error_map.txt --out tmp/vou-aladin-error-py.html
-#      open tmp/${pidnm}vou-aladin-error-py.html
-
+#      if [ $plotsed != N ]; then
+#         rm -rf tmp/${pidnm}vou-aladin-error.html
+#         python3.10 ${HERE}/aladin_error_map.py --ra $racand --dec $deccand --input_file_error_circles tmp/${pidnm}error_map.txt --out tmp/vou-aladin-error-py.html
+#         open tmp/${pidnm}vou-aladin-error-py.html
+#      fi
       # ps2eps -B -q sed.ps -R +
       # rm -f error_map.ps
       # rm -f sed.ps
@@ -987,8 +989,8 @@ do
 #      [ -d Results/$xrtnm -a -f tmp/${pidnm}error_map.*ps ] && cp tmp/${pidnm}error_map.*ps Results/$xrtnm/$source"_"error_map.eps
 #      [ -d Results/$xrtnm -a -f tmp/${pidnm}LC.*ps ] && cp tmp/${pidnm}LC.*ps Results/$xrtnm/$source"_"LC.eps
 #      [ -d Results/$xrtnm -a -f tmp/${pidnm}LC_fermi.*ps ] && cp tmp/${pidnm}LC_fermi.*ps Results/$xrtnm/$source"_"LC_fermi.eps
-      [ -d Results/$xrtnm -a -f tmp/${pidnm}Sed.txt ] && cp tmp/${pidnm}Sed.txt Results/$xrtnm/$source"_"Sed.txt
-      [ -d Results/$xrtnm -a -f tmp/${pidnm}Sed.csv ] && cp tmp/${pidnm}Sed.csv Results/$xrtnm/$source"_"Sed.csv
+#      [ -d Results/$xrtnm -a -f tmp/${pidnm}Sed.txt ] && cp tmp/${pidnm}Sed.txt Results/$xrtnm/$source"_"Sed.txt
+#      [ -d Results/$xrtnm -a -f tmp/${pidnm}Sed.csv ] && cp tmp/${pidnm}Sed.csv Results/$xrtnm/$source"_"Sed.csv
 #      [ -d Results/$xrtnm -a -f tmp/${pidnm}output2.csv ] && cp tmp/${pidnm}output2.csv Results/$xrtnm/$source"_"output2.csv
 
 #save the results as a tex pdf
@@ -1046,9 +1048,9 @@ done
 
 #remove the vo files from various catalogs
 rm -rf eada_files
-rm -f tmp/${pidnm}*.1.csv
+#rm -f tmp/${pidnm}*.1.csv
 rm -f tmp/${pidnm}*.i.csv
-rm -f tmp/${pidnm}*.2.csv
+#rm -f tmp/${pidnm}*.2.csv
 rm -f tmp/${pidnm}xrtdeep.csv
 ###rm -f Results/$xrtnm/*.pdf
 rm -f vou-blazars.aux

@@ -333,7 +333,7 @@ c write the data
      &         (catalog(1:it-1) == 'lotss') .or. (catalog(1:it-1) == 'akaribsc') .or.
      &         (catalog(1:it-1) == 'iraspsc') .or. (catalog(1:it-1) == 'vlassql') .or.
      &         (catalog(1:it-1) == 'f357det') ) then
-               write(13,'(i4,",",a,",",2(f9.5,","),f7.3,",",a)')
+               write(13,'(i4,",",a,",",2(f9.5,","),f9.3,",",a)')
      &             ns,catalog(1:it-1),radeg,decdeg,poserr,flux(1:ie-1)
             else if ((catalog(1:it-1) == '3fhl') .or. (catalog(1:it-1) == '3fgl') .or.
      &               (catalog(1:it-1) == '2agile') .or. (catalog(1:it-1) == 'fmev') .or.

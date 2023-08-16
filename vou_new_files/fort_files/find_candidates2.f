@@ -2061,6 +2061,7 @@ c checked photometric quality for SDSS ! no upper limit for SDSS
          CALL  mag2flux (nh,usnomag(iusno,5)+usnomagerr(iusno,5),'I  ',FluxL_usno(iusno,5),frequency_usno(iusno,5))
                opt_type(iusno)='HSTGSC'
             else if (catalog(1:9) == 'panstarrs') THEN
+c               print *,'string ',string(1:lenact(string))
                is=ie
                ie=index(string(is+1:len(string)),',')+is
                if (is .ne. ie-1) read(string(is+1:ie-1),*) poserr_usno(iusno)
@@ -3784,7 +3785,7 @@ c               bigbind(igam)=MOD(ibigb,10)
                FluxU_gam(igam,2)=fdens
                call fluxtofdens(slope_gam(igam,1),0.1,0.3,FluxL_gam(igam,2),0.2,fdens,nudens)
                FluxL_gam(igam,2)=fdens
-               gam_type(igam)='FermiMeV'
+               gam_type(igam)='1FLE'
             ENDIF
             poserr_gam(igam)=poserr_gam(igam)*1.1
             !write(*,*) catalog,FluxU_gam(igam,4),flux_gam(igam,4),FluxL_gam(igam,4)
@@ -5202,10 +5203,14 @@ c         enddo
                else
                   opt_flag(i,4)=' Det'
                endif
-               write(14,'(4(es10.3,2x),2(f10.4,2x),a,2x,a)') freq_usnocand(i,2),flux_usnocand(i,2),uflux_usnocand(i,2),
-     &         lflux_usnocand(i,2),mjdavg,mjdavg,opt_flag(i,2),optcand_type(i),refs(opt_ref(i))
-               write(14,'(4(es10.3,2x),2(f10.4,2x),a,2x,a)') freq_usnocand(i,4),flux_usnocand(i,4),uflux_usnocand(i,4),
-     &          lflux_usnocand(i,4),mjdavg,mjdavg,opt_flag(i,4),optcand_type(i),refs(opt_ref(i))
+               IF (uflux_usnocand(i,2) > 0.) THEN
+                  write(14,'(4(es10.3,2x),2(f10.4,2x),a,2x,a)') freq_usnocand(i,2),flux_usnocand(i,2),uflux_usnocand(i,2),
+     &            lflux_usnocand(i,2),mjdavg,mjdavg,opt_flag(i,2),optcand_type(i),refs(opt_ref(i))
+               ENDIF
+               IF (uflux_usnocand(i,4) > 0.) THEN
+                  write(14,'(4(es10.3,2x),2(f10.4,2x),a,2x,a)') freq_usnocand(i,4),flux_usnocand(i,4),uflux_usnocand(i,4),
+     &            lflux_usnocand(i,4),mjdavg,mjdavg,opt_flag(i,4),optcand_type(i),refs(opt_ref(i))
+               ENDIF
             ELSE if (optcand_type(i) == 'GAIA' ) then
                 if ((flux_usnocand(i,1) .eq. lflux_usnocand(i,1)) .and. (flux_usnocand(i,1) .eq. uflux_usnocand(i,1))) then
                    opt_flag(i,1)=' UL '
@@ -5225,8 +5230,10 @@ c         enddo
                   else
                      opt_flag(i,s)=' Det'
                   endif
-                write(14,'(4(es10.3,2x),2(f10.4,2x)a,2x,a,2x,a)') freq_usnocand(i,s),flux_usnocand(i,s),uflux_usnocand(i,s),
-     &            lflux_usnocand(i,s),mjdavg,mjdavg,opt_flag(i,s),optcand_type(i),refs(opt_ref(i))
+                  IF (freq_usnocand(i,s) > 0.) THEN
+                     write(14,'(4(es10.3,2x),2(f10.4,2x)a,2x,a,2x,a)') freq_usnocand(i,s),flux_usnocand(i,s),uflux_usnocand(i,s),
+     &               lflux_usnocand(i,s),mjdavg,mjdavg,opt_flag(i,s),optcand_type(i),refs(opt_ref(i))
+                  ENDIF
                enddo
             endif
             intensity=max(usnomag_cand(i,1),usnomag_cand(i,2),usnomag_cand(i,3),usnomag_cand(i,4),usnomag_cand(i,5))
@@ -5442,7 +5449,7 @@ c         enddo
                   write(14,'(4(es10.3,2x),2(f10.4,2x),a,2x,a,2x,a)') frequency_gam(i,s),flux_gam(i,s),
      &             FluxU_gam(i,s),FluxL_gam(i,s),mjdavg,mjdavg,gam_flag(i,s),gam_type(i),refs(gam_ref(i))
                enddo
-            else if (gam_type(i) == 'FermiMeV') then
+            else if (gam_type(i) == '1FLE') then
                call graphic_code(flux_gam(i,1),94,code)
                do s=1,2
                   if ((flux_gam(i,s) .eq. FluxL_gam(i,s)) .and. (flux_gam(i,s) .eq. FluxU_gam(i,s))) then
