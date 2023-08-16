@@ -20,13 +20,13 @@ def handle_voublazars(ra, dec):
     if dec_main.startswith('-'):
         dec_main = 'm' + dec_main[1:]  # Skip the "-" sign
 
-    folder_name = "{}_{}_{}_{}_".format(ra_main, ra_fraction, dec_main, dec_fraction)
+    # folder_name = "{}_{}_{}_{}_".format(ra_main, ra_fraction, dec_main, dec_fraction)
 
-    csv_filename = "sed_Sed.csv"
-    csv_filepath = os.path.join("/VOU_Blazars/Results", folder_name, csv_filename)
+    csv_filename = "Sed.csv"
+    csv_filepath = os.path.join("/VOU_Blazars/tmp", csv_filename)
 
-    txt_filename = "sed_Sed.txt"
-    txt_filepath = os.path.join("/VOU_Blazars/Results", folder_name, txt_filename)
+    txt_filename = "Sed.txt"
+    txt_filepath = os.path.join("/VOU_Blazars/tmp", txt_filename)
 
     # Define the new CSV and TXT filenames
     new_csv_filename = "{}.{}_{}.{}.csv".format(ra_main, ra_fraction, dec_main, dec_fraction)
