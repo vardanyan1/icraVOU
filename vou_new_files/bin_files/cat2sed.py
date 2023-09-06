@@ -1,10 +1,6 @@
-import numpy as np
 import pandas as pd
 import argparse
 import os
-import csv
-from astropy.table import Table
-from astropy.time import Time
 
 def find_reference(input_file_path, target_string):
     found_line = None
