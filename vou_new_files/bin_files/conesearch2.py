@@ -120,7 +120,7 @@ if __name__ == "__main__":
        radius = float(args.radius)/3600.
     else:
        print ('Unknown radius units. Allowed values are degrees, arcmin or arcsec ')
-       exit()
+       exit(1)
 
     if (args.db != 'none') & (args.catalog != 'none'):
        catalog = args.catalog
@@ -130,7 +130,7 @@ if __name__ == "__main__":
           columns = result['columns']
        else:
           print ('Catalog not found')
-          exit(0)
+          exit(1)
     try: 
        signal.signal(signal.SIGALRM, timeout_handler)
        signal.alarm(timeout_seconds)
@@ -141,10 +141,10 @@ if __name__ == "__main__":
        exit(20)
     except requests.RequestException as e:
        print("Error retrieving catalog information:", e)
-       exit(0)
+       exit(1)
     except Exception as e:
        print("An error occurred:", e)
-       exit(0)
+       exit(1)
 
     input_names = columns.split(',')
     matching_indices = [names_array.index(name) if name in names_array else None for name in input_names]

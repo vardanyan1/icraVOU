@@ -7,7 +7,7 @@ import shutil
 
 
 def handle_voublazars(ra, dec):
-    cmd = ["./bin/vou-blazars-hybrid.sh", "--ra", ra, "--dec", dec, "--mode", "-s"]
+    cmd = ["./bin/vou-blazars-hybrid.sh", "--ra", ra, "--dec", dec, "--mode", "-s", "--allcats", "y"]
     process = subprocess.Popen(cmd)
     process.wait()
 

@@ -17,14 +17,8 @@ fi
 handle_ps () {
     [ `which ps2eps 2> /dev/null` ] || return 0
     FILE_PS=$1
-#    if [ $FILE_PS == tmp/${pidnm}sed.ps -o $FILE_PS == tmp/${pidnm}LC.ps -o $FILE_PS == tmp/${pidnm}LC_fermi.ps ]; then
-#       ps2eps -B -q $FILE_PS -R +
-#    else
-#       ps2eps -B -q $FILE_PS
-#    fi
     if [ $plotsed != N ]; then
     if [ `which open 2> /dev/null` ]; then
-#      open ${FILE_PS%.ps}.eps
        echo ""
     else
       gv ${FILE_PS%.ps}.eps &
@@ -195,14 +189,16 @@ fi
 #read the nh, or set the default nh value
 if [ -z $nhval ]; then
    if [ -z $nhthere ]; then
-      nhval=`grep 'NHVAL' ${HERE}/config_vou.txt | awk '{print $2}'`
+      nhval=`python3 ${HERE}/nh.py --ra $ranh --dec $decnh `
+#      nhval=`grep 'NHVAL' ${HERE}/config_vou.txt | awk '{print $2}'`
    else
-#   echo $ranh $decnh
-      nh equinox=2000 ra=$ranh dec=$decnh > tmp/${pidnm}nhvalue.txt
-      nhval=`tail -1 tmp/${pidnm}nhvalue.txt |  awk '{print $7}'`
-      rm -f tmp/${pidnm}nhvalue.txt
+#      nh equinox=2000 ra=$ranh dec=$decnh > tmp/${pidnm}nhvalue.txt
+      nhval=`python3 ${HERE}/nh.py --ra $ranh --dec $decnh `
+#      nhval=`tail -1 tmp/${pidnm}nhvalue.txt |  awk '{print $7}'`
+#      rm -f tmp/${pidnm}nhvalue.txt
    fi
 fi
+echo "Nh from heasarc "$nhval
 [ -z $r1 ] && r1=`grep 'RADIUS1' ${HERE}/config_vou.txt | awk '{print $2}'`
 [ -z $emaj1 ] && emaj1=`grep 'MAJOR1' ${HERE}/config_vou.txt | awk '{print $2}'`
 [ -z $emin1 ] && emin1=`grep 'MINOR1' ${HERE}/config_vou.txt | awk '{print $2}'`
@@ -548,12 +544,12 @@ fi
 
 
 #save the phase 1 and phase intermediate results in the folder
-[ $runmode == f -a -d Results/$xrtnm ] && cp tmp/${pidnm}candidates.*ps Results/$xrtnm/.
-[ $runmode == f -a -d Results/$xrtnm ] && cp tmp/${pidnm}RX_map.*ps Results/$xrtnm/.
-[ -f tmp/${pidnm}output1.csv -a -d Results/$xrtnm ] && cp tmp/${pidnm}output1.csv Results/$xrtnm/output1.csv
-[ -f tmp/${pidnm}output_int.csv -a -d Results/$xrtnm ] && cp tmp/${pidnm}output_int.csv Results/$xrtnm/output_int.csv
-[ -f tmp/${pidnm}candidates.csv -a -d Results/$xrtnm ] && cp tmp/${pidnm}candidates.csv Results/$xrtnm/candidates.csv
-[ -d Results/$xrtnm ] && echo \\section{$ranh $decnh} > tmp/${pidnm}texcand.txt
+###[ $runmode == f -a -d Results/$xrtnm ] && cp tmp/${pidnm}candidates.*ps Results/$xrtnm/.
+###[ $runmode == f -a -d Results/$xrtnm ] && cp tmp/${pidnm}RX_map.*ps Results/$xrtnm/.
+###[ -f tmp/${pidnm}output1.csv -a -d Results/$xrtnm ] && cp tmp/${pidnm}output1.csv Results/$xrtnm/output1.csv
+###[ -f tmp/${pidnm}output_int.csv -a -d Results/$xrtnm ] && cp tmp/${pidnm}output_int.csv Results/$xrtnm/output_int.csv
+###[ -f tmp/${pidnm}candidates.csv -a -d Results/$xrtnm ] && cp tmp/${pidnm}candidates.csv Results/$xrtnm/candidates.csv
+###[ -d Results/$xrtnm ] && echo \\section{$ranh $decnh} > tmp/${pidnm}texcand.txt
 if [ $runmode == f -a -d Results/$xrtnm ]; then
    echo \\begin{figure}[h!] >> tmp/${pidnm}texcand.txt
    echo \\centering >> tmp/${pidnm}texcand.txt
@@ -570,6 +566,7 @@ fi
 
 #begin phase 2 setup, leave the tool when no candidates
 rm -f tmp/${pidnm}*.2.csv
+rm -f tmp/${pidnm}*.2.txt
 rm -f tmp/${pidnm}texsed*
 source=1
 
@@ -772,6 +769,13 @@ do
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR4 --ra $rar --dec $decr --radius 8 --runit arcmin --o tmp/${pidnm}4fgldr4.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 3FHL --ra $rar  --dec $decr --radius 7 --runit arcmin --o tmp/${pidnm}3fhl.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2BIGB --ra $rar  --dec $decr --radius 10 --runit arcmin --o tmp/${pidnm}2bigb.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog SPECFINDV3 --ra $rar  --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}specfindv3.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog EPRS --ra $rar  --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}eprs.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog RATAN-600 --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}ratan600.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog MM-MONITORING4 --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}mmmonitoring4.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PACO --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}paco.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PACOPCCS --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}pacopccs.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GLEAMV2 --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}gleamv2.$nn.2.txt >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats2.ini --catalog 2AGILE --ra $rar  --dec $decr --radius 50 --runit arcmin --columns default -o tmp/${pidnm}2agile.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 1FLE --ra $rar  --dec $decr --radius 20 --runit arcmin --o tmp/${pidnm}fmev.$nn.2.csv >> tmp/${pidnm}vosearch.txt
 #   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FermiMeV --ra $ranh  --dec $decnh --radius 20  --runit arcmin --o tmp/${pidnm}oldfmev.1.csv >> tmp/${pidnm}vosearch.txt
@@ -784,7 +788,7 @@ do
             fi
             if [ $SITE == 'standard' ]; then
                echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog KUEHR --ra $rar --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}kuehr.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GLEAM --ra $rar --dec $decr --radius 50 --runit arcsec --o tmp/${pidnm}gleam.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+#               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GLEAM --ra $rar --dec $decr --radius 50 --runit arcsec --o tmp/${pidnm}gleam.$nn.2.csv >> tmp/${pidnm}vosearch.txt
                echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog XMMOM --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}xmmom.$nn.2.csv >> tmp/${pidnm}vosearch.txt
                echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog UVOT --ra $rar  --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}uvot.$nn.2.csv >> tmp/${pidnm}vosearch.txt
                echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FMonLC --ra $rar  --dec $decr --radius 15 --runit arcmin --o tmp/${pidnm}fmonlc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
@@ -938,17 +942,11 @@ do
       rm -f tmp/${pidnm}sed.*ps
       rm -f tmp/${pidnm}LC.*ps
       rm -f tmp/${pidnm}LC_fermi.*ps
-###      if [ $runmode == f ]; then
          ${BINF}/gnomo_plot_types tmp/${pidnm}error_map.txt,tmp/${pidnm}candidates_posix.txt,tmp/${pidnm}error_map.ps/vcps,${BINF}, $racand $deccand 0. $zoomin $racand $deccand 0 0 0 0 0 0 0 $racand $deccand
-#            handle_ps tmp/${pidnm}error_map.ps
-###      fi
-      # ps2eps -B -q error_map.ps
-      # open error_map.eps
 
 #plot the SED
       echo
       if [ $runmode != l ]; then
-#         ${BINF}/plot_sed tmp/${pidnm}Sed.txt tmp/${pidnm}sed.ps/cps ${BINF} $source
             handle_ps tmp/${pidnm}sed.ps
       fi
       echo
@@ -957,26 +955,47 @@ do
          [ -f tmp/${pidnm}LC.ps ] && handle_ps tmp/${pidnm}LC.ps
          [ -f tmp/${pidnm}LC_fermi.ps ] && handle_ps tmp/${pidnm}LC_fermi.ps
       fi
-#      if [ $plotsed != N ]; then
-#         rm -rf tmp/${pidnm}vou-aladin-error.html
-#         python3.10 ${HERE}/aladin_error_map.py --ra $racand --dec $deccand --input_file_error_circles tmp/${pidnm}error_map.txt --out tmp/vou-aladin-error-py.html
-#         open tmp/${pidnm}vou-aladin-error-py.html
-#      fi
-      # ps2eps -B -q sed.ps -R +
-      # rm -f error_map.ps
-      # rm -f sed.ps
-      # open sed.eps
-#      sort -n -k 5 tmp/${pidnm}LC.txt > tmp/${pidnm}LC_sorted.txt
+      if [ $plotsed != N ]; then
+         rm -rf tmp/${pidnm}vou-aladin-error.html
+         python3.10 ${HERE}/aladin_error_map.py --ra $racand --dec $deccand --input_file_error_circles tmp/${pidnm}error_map.txt --out tmp/vou-aladin-error-py.html
+         open tmp/${pidnm}vou-aladin-error-py.html
+      fi
       [ $showsed == 'osed' ] && open tmp/${pidnm}Sed.txt
 ##############################################################
-
+# Write data from additional catalogs via cat2sed.py and add to Sed.txt
+      if [ -f tmp/specfindv3.1.2.txt ]; then
+         python3.10 ${HERE}/cat2sed.py --input_file tmp/specfindv3.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         cat tmp/4sed.csv >> tmp/Sed.txt
+      fi
+      if [ -f tmp/mmmonitoring4.1.2.txt ]; then
+         python3.10 ${HERE}/cat2sed.py --input_file tmp/mmmonitoring4.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         cat tmp/4sed.csv >> tmp/Sed.txt
+      fi
+      if [ -f tmp/eprs.1.2.txt ]; then
+         python3.10 ${HERE}/cat2sed.py --input_file tmp/eprs.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         cat tmp/4sed.csv >> tmp/Sed.txt
+      fi
+      if [ -f tmp/gleamv2.1.2.txt ]; then
+         python3.10 ${HERE}/cat2sed.py --input_file tmp/gleamv2.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         cat tmp/4sed.csv >> tmp/Sed.txt
+      fi
+      if [ -f tmp/ratan600.1.2.txt ]; then
+         python3.10 ${HERE}/cat2sed.py --input_file tmp/ratan600.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         cat tmp/4sed.csv >> tmp/Sed.txt
+      fi
+      if [ -f tmp/paco.1.2.txt ]; then
+         python3.10 ${HERE}/cat2sed.py --input_file tmp/paco.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         cat tmp/4sed.csv >> tmp/Sed.txt
+      fi
+      if [ -f tmp/pacopccs.1.2.txt ]; then
+         python3.10 ${HERE}/cat2sed.py --input_file tmp/pacopccs.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         cat tmp/4sed.csv >> tmp/Sed.txt
+      fi
 #for SED builder tool and future catalog
       rm -f tmp/${pidnm}Out4SedTool.txt
       rased=`echo $racand | sed 's/\./_/g'`
       decsed=`echo $deccand | sed 's/\./_/g' | sed 's/-/m/g'`
-#      ${HERE}/convert_sed tmp/${pidnm}Sed.txt tmp/${pidnm}Out4SedTool.txt tmp/${pidnm}Sed.csv
       python3.10 ${HERE}/convert_sed.py tmp/${pidnm}Sed.txt tmp/${pidnm}Out4SedTool.txt tmp/${pidnm}Sed.csv
-      [ -d Results/SEDtool -a -f tmp/${pidnm}Out4SedTool.txt ] && cp tmp/${pidnm}Out4SedTool.txt Results/SEDtool/$rased"_"$decsed"_"sedtool.txt
       if [ $runmode != l -a $plotsed != N ]; then
          rm -f tmp/${pidnm}PySED.png
          python3.10 ${HERE}/All-SED.py --xaxis f --infile1 tmp/${pidnm}Sed.csv --outfile tmp/${pidnm}PySED.png --title 'Source nr. '$source' RA='$racand' Dec='$deccand --upperlimits 'no' --erosita 'yes' --Show 'no'
@@ -985,13 +1004,13 @@ do
 ##############################################################
 
 #save the phase 2 results in the folder
-#      [ -d Results/$xrtnm -a -f tmp/${pidnm}sed.*ps ] && cp tmp/${pidnm}sed.*ps Results/$xrtnm/$source"_"sed.eps
-#      [ -d Results/$xrtnm -a -f tmp/${pidnm}error_map.*ps ] && cp tmp/${pidnm}error_map.*ps Results/$xrtnm/$source"_"error_map.eps
-#      [ -d Results/$xrtnm -a -f tmp/${pidnm}LC.*ps ] && cp tmp/${pidnm}LC.*ps Results/$xrtnm/$source"_"LC.eps
-#      [ -d Results/$xrtnm -a -f tmp/${pidnm}LC_fermi.*ps ] && cp tmp/${pidnm}LC_fermi.*ps Results/$xrtnm/$source"_"LC_fermi.eps
-#      [ -d Results/$xrtnm -a -f tmp/${pidnm}Sed.txt ] && cp tmp/${pidnm}Sed.txt Results/$xrtnm/$source"_"Sed.txt
-#      [ -d Results/$xrtnm -a -f tmp/${pidnm}Sed.csv ] && cp tmp/${pidnm}Sed.csv Results/$xrtnm/$source"_"Sed.csv
-#      [ -d Results/$xrtnm -a -f tmp/${pidnm}output2.csv ] && cp tmp/${pidnm}output2.csv Results/$xrtnm/$source"_"output2.csv
+###      [ -d Results/$xrtnm -a -f tmp/${pidnm}sed.*ps ] && cp tmp/${pidnm}sed.*ps Results/$xrtnm/$source"_"sed.eps
+###      [ -d Results/$xrtnm -a -f tmp/${pidnm}error_map.*ps ] && cp tmp/${pidnm}error_map.*ps Results/$xrtnm/$source"_"error_map.eps
+###      [ -d Results/$xrtnm -a -f tmp/${pidnm}LC.*ps ] && cp tmp/${pidnm}LC.*ps Results/$xrtnm/$source"_"LC.eps
+###      [ -d Results/$xrtnm -a -f tmp/${pidnm}LC_fermi.*ps ] && cp tmp/${pidnm}LC_fermi.*ps Results/$xrtnm/$source"_"LC_fermi.eps
+###      [ -d Results/$xrtnm -a -f tmp/${pidnm}Sed.txt ] && cp tmp/${pidnm}Sed.txt Results/$xrtnm/$source"_"Sed.txt
+###      [ -d Results/$xrtnm -a -f tmp/${pidnm}Sed.csv ] && cp tmp/${pidnm}Sed.csv Results/$xrtnm/$source"_"Sed.csv
+###      [ -d Results/$xrtnm -a -f tmp/${pidnm}output2.csv ] && cp tmp/${pidnm}output2.csv Results/$xrtnm/$source"_"output2.csv
 
 #save the results as a tex pdf
 #      cp sed.eps fortex/$source"_"sed.eps
@@ -1001,28 +1020,28 @@ do
 #      cp RX_map.eps fortex/.
       
 #copy figure text to tex file
-#      [ $runmode == f -a -d Results/$xrtnm ] && echo \\subsection{Candidate No. $source}  > tmp/${pidnm}texsed_$source.txt
-#      [ $runmode == f -a -d Results/$xrtnm ] && echo Candidate position: $racand , $deccand >> tmp/${pidnm}texsed_$source.txt
-#      [ $runmode == f -a -d Results/$xrtnm ] && echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
-#      [ $runmode == f -a -d Results/$xrtnm ] && echo \\centering >> tmp/${pidnm}texsed_$source.txt
-#      [ -d Results/$xrtnm -a -f tmp/${pidnm}sed.*ps ] && echo \\includegraphics[width=0.3\\linewidth]{Results/$xrtnm/$source"_"error_map.eps} >> tmp/${pidnm}texsed_$source.txt
-#      [ -d Results/$xrtnm -a -f tmp/${pidnm}error_map.*ps ] && echo \\includegraphics[width=0.69\\linewidth]{Results/$xrtnm/$source"_"sed.eps} >> tmp/${pidnm}texsed_$source.txt
-#      [ $runmode == f -a -d Results/$xrtnm ] && echo \\caption{Left: Error Circle Map. Right: SED.} >> tmp/${pidnm}texsed_$source.txt
-#      [ $runmode == f -a -d Results/$xrtnm ] && echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
-#      if [ -f tmp/${pidnm}LC.*ps -a -d Results/$xrtnm ]; then
-#         echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
-#         echo \\centering >> tmp/${pidnm}texsed_$source.txt
-#         echo \\includegraphics[width=0.95\\linewidth]{Results/$xrtnm/$source"_"LC.eps} >> tmp/${pidnm}texsed_$source.txt
-#         echo \\caption{Light Curve.} >> tmp/${pidnm}texsed_$source.txt
-#         echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
-#      fi
-#      if [ -f tmp/${pidnm}LC_fermi.*ps -a -d Results/$xrtnm ]; then
-#         echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
-#         echo \\centering >> tmp/${pidnm}texsed_$source.txt
-#         echo \\includegraphics[width=0.95\\linewidth]{Results/$xrtnm/$source"_"LC_fermi.eps} >> tmp/${pidnm}texsed_$source.txt
-#         echo \\caption{Fermi gamma-ray Light Curve.} >> tmp/${pidnm}texsed_$source.txt
-#         echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
-#      fi
+###      [ $runmode == f -a -d Results/$xrtnm ] && echo \\subsection{Candidate No. $source}  > tmp/${pidnm}texsed_$source.txt
+###      [ $runmode == f -a -d Results/$xrtnm ] && echo Candidate position: $racand , $deccand >> tmp/${pidnm}texsed_$source.txt
+###      [ $runmode == f -a -d Results/$xrtnm ] && echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
+###      [ $runmode == f -a -d Results/$xrtnm ] && echo \\centering >> tmp/${pidnm}texsed_$source.txt
+###      [ -d Results/$xrtnm -a -f tmp/${pidnm}sed.*ps ] && echo \\includegraphics[width=0.3\\linewidth]{Results/$xrtnm/$source"_"error_map.eps} >> tmp/${pidnm}texsed_$source.txt
+###      [ -d Results/$xrtnm -a -f tmp/${pidnm}error_map.*ps ] && echo \\includegraphics[width=0.69\\linewidth]{Results/$xrtnm/$source"_"sed.eps} >> tmp/${pidnm}texsed_$source.txt
+###      [ $runmode == f -a -d Results/$xrtnm ] && echo \\caption{Left: Error Circle Map. Right: SED.} >> tmp/${pidnm}texsed_$source.txt
+###      [ $runmode == f -a -d Results/$xrtnm ] && echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
+###      if [ -f tmp/${pidnm}LC.*ps -a -d Results/$xrtnm ]; then
+###         echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
+###         echo \\centering >> tmp/${pidnm}texsed_$source.txt
+###         echo \\includegraphics[width=0.95\\linewidth]{Results/$xrtnm/$source"_"LC.eps} >> tmp/${pidnm}texsed_$source.txt
+###         echo \\caption{Light Curve.} >> tmp/${pidnm}texsed_$source.txt
+###         echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
+###      fi
+###      if [ -f tmp/${pidnm}LC_fermi.*ps -a -d Results/$xrtnm ]; then
+###         echo \\begin{figure}[h!] >> tmp/${pidnm}texsed_$source.txt
+###         echo \\centering >> tmp/${pidnm}texsed_$source.txt
+###         echo \\includegraphics[width=0.95\\linewidth]{Results/$xrtnm/$source"_"LC_fermi.eps} >> tmp/${pidnm}texsed_$source.txt
+###         echo \\caption{Fermi gamma-ray Light Curve.} >> tmp/${pidnm}texsed_$source.txt
+###         echo \\end{figure} >> tmp/${pidnm}texsed_$source.txt
+###      fi
 
 #PID number for online version
       if [ $pid ]; then
