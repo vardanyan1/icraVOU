@@ -41,6 +41,8 @@ RUN pip2 install https://github.com/chbrandt/eada/archive/0.9.7.5.zip
 
 RUN pip3 install requests bs4 timeout_decorator lxml
 
+RUN pip3 install  pandas astropy astroquery
+
 # Create necessary directories for EADA
 RUN mkdir -p /root/.config/eada
 
@@ -48,7 +50,7 @@ RUN mkdir -p /root/.config/eada
 RUN apt-get install -y pgplot5 libpq-dev
 
 # Install dependencies
-RUN pip2 install psycopg2-binary hsluv==5.0.0
+RUN pip2 install psycopg2-binary hsluv==5.0.0 pandas
 
 # Clone VOU_Blazars repository
 RUN git clone https://github.com/ecylchang/VOU_Blazars.git
@@ -79,6 +81,8 @@ RUN chmod +x ./bin/vou-blazars-hybrid.sh
 
 # Copy the Python script to the container
 COPY app.py .
+COPY ztf .
+COPY conesearch_files ./conesearch_files
 
 # Create user 'narek' and set it as the current user
 RUN useradd -u 1001 -m narek

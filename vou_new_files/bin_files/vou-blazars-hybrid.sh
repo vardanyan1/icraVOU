@@ -245,57 +245,57 @@ rm -f tmp/${pidnm}*.1.csv
 rm -f tmp/${pidnm}vosearch.txt
 rm -f tmp/gammacandidates.csv
 if [ "$light" != "y" -a "$light" != "Y" ]; then
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog NVSS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}nvss.1.csv > tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog FIRST --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}first.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog SUMSS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}sumss.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog NVSS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}nvss.1.csv > tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog FIRST --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}first.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog SUMSS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}sumss.1.csv >> tmp/${pidnm}vosearch.txt
 if [ $runmode != f ]; then 
-      echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog VLASSQL --ra $ranh --dec $decnh --radius 4 --runit arcsec --o tmp/${pidnm}vlassql.1.csv >> tmp/${pidnm}vosearch.txt
+      echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog VLASSQL --ra $ranh --dec $decnh --radius 4 --runit arcsec --o tmp/${pidnm}vlassql.1.csv >> tmp/${pidnm}vosearch.txt
 else
-      echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog VLASSQL --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}vlassql.1.csv >> tmp/${pidnm}vosearch.txt
+      echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog VLASSQL --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}vlassql.1.csv >> tmp/${pidnm}vosearch.txt
 fi
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog RACS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}racs.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 2SXPS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}2sxps.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog RACS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}racs.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 2SXPS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}2sxps.1.csv >> tmp/${pidnm}vosearch.txt
    echo conesearch --db ${HERE}/cats1.ini --catalog 1OUSX --ra $ranh --dec $decnh --radius $sfov --runit arcmin --columns default -o tmp/${pidnm}1ousx.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py  --db ${HERE}/cats1.ini --catalog RASS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}rass.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py  --db ${HERE}/cats1.ini --catalog RASS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}rass.1.csv >> tmp/${pidnm}vosearch.txt
 if [ $SITE == 'alternative' ]; then
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 4XMM-DR12 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4xmmdr12.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 4XMM-DR12 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4xmmdr12.1.csv >> tmp/${pidnm}vosearch.txt
 else
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 4XMM-DR13 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4xmmdr13.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog BMW --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}bmw.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog XMMSL2 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}xmmsl2.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog IPC2E --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}ipc.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py  --db ${HERE}/cats1.ini --catalog IPCSL --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}ipcsl.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 4XMM-DR13 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4xmmdr13.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog BMW --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}bmw.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog XMMSL2 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}xmmsl2.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog IPC2E --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}ipc.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py  --db ${HERE}/cats1.ini --catalog IPCSL --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}ipcsl.1.csv >> tmp/${pidnm}vosearch.txt
 fi
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog WGACAT --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}wgacat.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog Chandra-CSC2 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}chandracsc2.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog eROSITA-EDR --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}erosita.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog WGACAT --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}wgacat.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog Chandra-CSC2 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}chandracsc2.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog eROSITA-EDR --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}erosita.1.csv >> tmp/${pidnm}vosearch.txt
 fi
 if [ $runmode == f ]; then #skip the catalogs that we don't plot its data on SED
    if [ $light != y -a $light != Y ]; then
-     echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog ZWCLUSTERS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}zw.1.csv >> tmp/${pidnm}vosearch.txt
-     echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog PSZ2 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}psz2.1.csv >> tmp/${pidnm}vosearch.txt
-     echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog MCXC --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}mcxc.1.csv >> tmp/${pidnm}vosearch.txt
-#     echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog SDSSWHL --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}whl.1.csv >> tmp/${pidnm}vosearch.txt
+     echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog ZWCLUSTERS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}zw.1.csv >> tmp/${pidnm}vosearch.txt
+     echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog PSZ2 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}psz2.1.csv >> tmp/${pidnm}vosearch.txt
+     echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog MCXC --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}mcxc.1.csv >> tmp/${pidnm}vosearch.txt
+#     echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog SDSSWHL --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}whl.1.csv >> tmp/${pidnm}vosearch.txt
       if [[ $SITE == 'standard' ]]; then
-        echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog ABELL --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}abell.1.csv >> tmp/${pidnm}vosearch.txt
-         echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog SWXCS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}swxcs.1.csv >> tmp/${pidnm}vosearch.txt
+        echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog ABELL --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}abell.1.csv >> tmp/${pidnm}vosearch.txt
+         echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog SWXCS --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}swxcs.1.csv >> tmp/${pidnm}vosearch.txt
       fi
-     echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog F2PSR --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}f2psr.1.csv >> tmp/${pidnm}vosearch.txt
-     echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog MilliQuas --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}mquas.1.csv >> tmp/${pidnm}vosearch.txt
+     echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog F2PSR --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}f2psr.1.csv >> tmp/${pidnm}vosearch.txt
+     echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog MilliQuas --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}mquas.1.csv >> tmp/${pidnm}vosearch.txt
      echo conesearch --db ${HERE}/cats1.ini --catalog F357cat --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --columns default -o tmp/${pidnm}f357cat.1.csv >> tmp/${pidnm}vosearch.txt
    fi
-     echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog CRATES --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}crates.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 5BZCat --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}5bzcat.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 3HSP --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}3hsp.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 4LAC-DR3 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4lacdr3.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog PULSAR --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}pulsar.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR3 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4fgldr3.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 3FHL --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}3fhl.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2BIGB --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}2bigb.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR4 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4fgldr4.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog MST12Y --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}mst12y.1.csv >> tmp/${pidnm}vosearch.txt
-   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 1FLE --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}fmev.1.csv >> tmp/${pidnm}vosearch.txt
-#   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FermiMeV --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}oldfmev.1.csv >> tmp/${pidnm}vosearch.txt
+     echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog CRATES --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}crates.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 5BZCat --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}5bzcat.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 3HSP --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}3hsp.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog 4LAC-DR3 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4lacdr3.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats1.ini --catalog PULSAR --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}pulsar.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR3 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4fgldr3.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 3FHL --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}3fhl.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2BIGB --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}2bigb.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR4 --ra $ranh --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}4fgldr4.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog MST12Y --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}mst12y.1.csv >> tmp/${pidnm}vosearch.txt
+   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 1FLE --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}fmev.1.csv >> tmp/${pidnm}vosearch.txt
+#   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FermiMeV --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --o tmp/${pidnm}oldfmev.1.csv >> tmp/${pidnm}vosearch.txt
    echo conesearch --db ${HERE}/cats2.ini --catalog 2AGILE --ra $ranh  --dec $decnh --radius $sfov --runit arcmin --columns default -o tmp/${pidnm}2agile.1.csv >> tmp/${pidnm}vosearch.txt
 fi
 
@@ -441,9 +441,9 @@ if [ -s tmp/${pidnm}no_matched_temp.txt ]; then
             cc=$cc+1
          fi
       done
-      echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GALEX --ra $ranh --dec $decnh --radius $radint --runit arcmin --o tmp/${pidnm}galex.i.csv > tmp/${pidnm}vosearch.txt
-      echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PMN --ra $ranh --dec $decnh --radius $radint --runit arcmin --o tmp/${pidnm}pmn.i.csv >> tmp/${pidnm}vosearch.txt
-      echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GB6 --ra $ranh --dec $decnh --radius $radint --runit arcmin --o tmp/${pidnm}gb6.i.csv >> tmp/${pidnm}vosearch.txt
+      echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GALEX --ra $ranh --dec $decnh --radius $radint --runit arcmin --o tmp/${pidnm}galex.i.csv > tmp/${pidnm}vosearch.txt
+      echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PMN --ra $ranh --dec $decnh --radius $radint --runit arcmin --o tmp/${pidnm}pmn.i.csv >> tmp/${pidnm}vosearch.txt
+      echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GB6 --ra $ranh --dec $decnh --radius $radint --runit arcmin --o tmp/${pidnm}gb6.i.csv >> tmp/${pidnm}vosearch.txt
       echo Searching further data in intermediate phase for $cc source
       rm -f tmp/${pidnm}voerror.txt
       bash ${HERE}/queue.sh -f tmp/${pidnm}vosearch.txt -p $pidnm #1> voerror 2>&1
@@ -581,11 +581,11 @@ if [ $runmode != s ]; then
    rrad=0
    rm -f candidates.png
    if [ $emaj1  != "0." ]; then 
-     python3.10 ${HERE}/skymap.py --ra $posra --dec $posdec --FOV $sfov --major $emaj1  --minor $emin1 --angle $posa1 --major2 $emaj2  --minor2 $emin2 --angle2 $posa2 --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png 
+     python3 ${HERE}/skymap.py --ra $posra --dec $posdec --FOV $sfov --major $emaj1  --minor $emin1 --angle $posa1 --major2 $emaj2  --minor2 $emin2 --angle2 $posa2 --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png
    elif [ $r1 != "0." ]; then
-     python3.10 ${HERE}/skymap.py --ra $posra --dec $posdec --FOV $sfov --radius $r1 --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png 
+     python3 ${HERE}/skymap.py --ra $posra --dec $posdec --FOV $sfov --radius $r1 --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png
    else  
-     python3.10 ${HERE}/skymap.py --ra $posra --dec $posdec --FOV $sfov --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png 
+     python3 ${HERE}/skymap.py --ra $posra --dec $posdec --FOV $sfov --infile_candidates tmp/candidates.csv --infile_multi tmp/find_out_temp.txt --infile_local IHBL-catalog --out candidates.png
    fi
    open candidates.png
 fi
@@ -716,82 +716,82 @@ do
       if  [ $typer -gt 10000 -o $typer -lt -40000 -o $typer -eq 99 -o $typer -eq -9999 ]; then
          nn=$nn+1
          if [ $nn = $source -o $source == sed -o $source == lcurve ]; then
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog WISH352 --ra $rar --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}wish352.$nn.2.csv > tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog TGSS150 --ra $rar --dec $decr --radius 1.5 --runit arcmin --o tmp/${pidnm}tgss150.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog LoTSS --ra $rar --dec $decr --radius 30 --runit arcsec --o tmp/${pidnm}lotss.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog VLSSR --ra $rar --dec $decr --radius 30 --runit arcsec --o tmp/${pidnm}vlssr.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PMN --ra $rar --dec $decr --radius 45 --runit arcsec --o tmp/${pidnm}pmn.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GB6 --ra $rar --dec $decr --radius 45 --runit arcsec --o tmp/${pidnm}gb6.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo  python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GB87 --ra $rar --dec $decr --radius 45 --runit arcsec --o tmp/${pidnm}gb87.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py  --db ${HERE}/cats2.ini --catalog AT20G --ra $rar --dec $decr --radius 30 --runit arcsec --o tmp/${pidnm}at20.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog ATPMN --ra $rar --dec $decr --radius 15 --runit arcsec --o tmp/${pidnm}atpmn.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog CRATES --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}crates.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog NORTH20 --ra $rar --dec $decr --radius 1.5 --runit arcmin --o tmp/${pidnm}north20.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog WISH352 --ra $rar --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}wish352.$nn.2.csv > tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog TGSS150 --ra $rar --dec $decr --radius 1.5 --runit arcmin --o tmp/${pidnm}tgss150.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog LoTSS --ra $rar --dec $decr --radius 30 --runit arcsec --o tmp/${pidnm}lotss.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog VLSSR --ra $rar --dec $decr --radius 30 --runit arcsec --o tmp/${pidnm}vlssr.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PMN --ra $rar --dec $decr --radius 45 --runit arcsec --o tmp/${pidnm}pmn.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GB6 --ra $rar --dec $decr --radius 45 --runit arcsec --o tmp/${pidnm}gb6.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo  python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GB87 --ra $rar --dec $decr --radius 45 --runit arcsec --o tmp/${pidnm}gb87.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py  --db ${HERE}/cats2.ini --catalog AT20G --ra $rar --dec $decr --radius 30 --runit arcsec --o tmp/${pidnm}at20.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog ATPMN --ra $rar --dec $decr --radius 15 --runit arcsec --o tmp/${pidnm}atpmn.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog CRATES --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}crates.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog NORTH20 --ra $rar --dec $decr --radius 1.5 --runit arcmin --o tmp/${pidnm}north20.$nn.2.csv >> tmp/${pidnm}vosearch.txt
 #            echo conesearch --db ${HERE}/cats2.ini --catalog F357det --ra $rar --dec $decr --radius 10 --runit arcsec --columns default -o tmp/${pidnm}f357det.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS30 --ra $rar --dec $decr --radius 10 --runit arcmin --o tmp/${pidnm}pccs30.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS44 --ra $rar --dec $decr --radius 8 --runit arcmin  --o tmp/${pidnm}pccs44.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS70 --ra $rar --dec $decr --radius 6 --runit arcmin  --o tmp/${pidnm}pccs70.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS100 --ra $rar --dec $decr --radius 6 --runit arcmin  --o tmp/${pidnm}pccs100.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS143 --ra $rar --dec $decr --radius 6 --runit arcmin  --o tmp/${pidnm}pccs143.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS217 --ra $rar --dec $decr --radius 6 --runit arcmin  --o tmp/${pidnm}pccs217.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS353 --ra $rar --dec $decr --radius 6 --runit arcmin --o tmp/${pidnm}pccs353.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS545 --ra $rar --dec $decr --radius 7 --runit arcmin  --o tmp/${pidnm}pccs545.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS857 --ra $rar --dec $decr --radius 8 --runit arcmin  --o tmp/${pidnm}pccs857.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCNT --ra $rar --dec $decr --radius 5 --runit arcmin --o tmp/${pidnm}pcnt.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog ALMA --ra $rar --dec $decr --radius 15 --runit arcsec --o tmp/${pidnm}alma.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog WISE --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}wise.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog UNWISE --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}unwise.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2MASS --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}2mass.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS30 --ra $rar --dec $decr --radius 10 --runit arcmin --o tmp/${pidnm}pccs30.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS44 --ra $rar --dec $decr --radius 8 --runit arcmin  --o tmp/${pidnm}pccs44.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS70 --ra $rar --dec $decr --radius 6 --runit arcmin  --o tmp/${pidnm}pccs70.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS100 --ra $rar --dec $decr --radius 6 --runit arcmin  --o tmp/${pidnm}pccs100.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS143 --ra $rar --dec $decr --radius 6 --runit arcmin  --o tmp/${pidnm}pccs143.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS217 --ra $rar --dec $decr --radius 6 --runit arcmin  --o tmp/${pidnm}pccs217.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS353 --ra $rar --dec $decr --radius 6 --runit arcmin --o tmp/${pidnm}pccs353.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS545 --ra $rar --dec $decr --radius 7 --runit arcmin  --o tmp/${pidnm}pccs545.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCCS857 --ra $rar --dec $decr --radius 8 --runit arcmin  --o tmp/${pidnm}pccs857.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PCNT --ra $rar --dec $decr --radius 5 --runit arcmin --o tmp/${pidnm}pcnt.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog ALMA --ra $rar --dec $decr --radius 15 --runit arcsec --o tmp/${pidnm}alma.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog WISE --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}wise.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog UNWISE --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}unwise.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2MASS --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}2mass.$nn.2.csv >> tmp/${pidnm}vosearch.txt
 #            echo conesearch --db ${HERE}/cats2.ini --catalog SPIRE250 --ra $rar --dec $decr --radius 5 --runit arcsec --columns default -o tmp/${pidnm}spire250.$nn.2.csv >> tmp/${pidnm}vosearch.txt
 #            echo conesearch --db ${HERE}/cats2.ini --catalog SPIRE350 --ra $rar --dec $decr --radius 5 --runit arcsec --columns default -o tmp/${pidnm}spire350.$nn.2.csv >> tmp/${pidnm}vosearch.txt
 #            echo conesearch --db ${HERE}/cats2.ini --catalog SPIRE500 --ra $rar --dec $decr --radius 5 --runit arcsec --columns default -o tmp/${pidnm}spire500.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog H-ATLAS-DR1 --ra $rar --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}hatlas1.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog H-ATLAS-DR2NGP --ra $rar --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}hatlas2ngp.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog H-ATLAS-DR2SGP --ra $rar --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}hatlas2sgp.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog AKARIBSC --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}akaribsc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog IRAS-PSC --ra $rar --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}iraspsc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog SDSS --ra $rar --dec $decr --radius 2 --runit arcsec --o tmp/${pidnm}sdss.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog H-ATLAS-DR1 --ra $rar --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}hatlas1.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog H-ATLAS-DR2NGP --ra $rar --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}hatlas2ngp.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog H-ATLAS-DR2SGP --ra $rar --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}hatlas2sgp.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog AKARIBSC --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}akaribsc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog IRAS-PSC --ra $rar --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}iraspsc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog SDSS --ra $rar --dec $decr --radius 2 --runit arcsec --o tmp/${pidnm}sdss.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             #echo conesearch --db ${HERE}/cats2.ini --catalog USNO --ra $rar --dec $decr --radius 10 --runit arcsec --columns default -o tmp/${pidnm}usno.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog HSTGSC --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}hst.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PanSTARRS --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}panstarrs.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GAIA --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}gaia.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog HSTGSC --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}hst.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PanSTARRS --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}panstarrs.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GAIA --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}gaia.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats2.ini --catalog SMARTS --ra $rar --dec $decr --radius 20 --runit arcsec --columns default -o tmp/${pidnm}smarts.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GALEX --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}galex.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GALEX --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}galex.$nn.2.csv >> tmp/${pidnm}vosearch.txt
 #            echo conesearch --db ${HERE}/cats2.ini --catalog CMA --ra $rar  --dec $decr --radius 1 --runit arcmin --columns default -o tmp/${pidnm}cma.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats2.ini --catalog XRTSPEC --ra $rar --dec $decr --radius 1 --runit arcmin --columns default -o tmp/${pidnm}xrtspec.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats1.ini --catalog OUSXB --ra $rar --dec $decr --radius 1 --runit arcmin --columns default -o tmp/${pidnm}ousxb.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats1.ini --catalog OUSXG --ra $rar --dec $decr --radius 1 --runit arcmin --columns default -o tmp/${pidnm}ousxg.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats2.ini --catalog BEPPOSAX --ra $rar --dec $decr --radius 2 --runit arcmin --columns default -o tmp/${pidnm}bepposax.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog BAT105m --ra $rar --dec $decr --radius 5 --runit arcmin --o tmp/${pidnm}bat105.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog BAT105m --ra $rar --dec $decr --radius 5 --runit arcmin --o tmp/${pidnm}bat105.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats2.ini --catalog NuBlazar --ra $rar --dec $decr --radius 20 --runit arcsec --columns default -o tmp/${pidnm}nublazar.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2FHL --ra $rar  --dec $decr --radius 10 --runit arcmin --o tmp/${pidnm}2fhl.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR3 --ra $rar --dec $decr --radius 8 --runit arcmin --o tmp/${pidnm}4fgldr3.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR4 --ra $rar --dec $decr --radius 8 --runit arcmin --o tmp/${pidnm}4fgldr4.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 3FHL --ra $rar  --dec $decr --radius 7 --runit arcmin --o tmp/${pidnm}3fhl.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2BIGB --ra $rar  --dec $decr --radius 10 --runit arcmin --o tmp/${pidnm}2bigb.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog SPECFINDV3 --ra $rar  --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}specfindv3.$nn.2.txt >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog EPRS --ra $rar  --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}eprs.$nn.2.txt >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog RATAN-600 --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}ratan600.$nn.2.txt >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog MM-MONITORING4 --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}mmmonitoring4.$nn.2.txt >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PACO --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}paco.$nn.2.txt >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PACOPCCS --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}pacopccs.$nn.2.txt >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GLEAMV2 --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}gleamv2.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2FHL --ra $rar  --dec $decr --radius 10 --runit arcmin --o tmp/${pidnm}2fhl.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR3 --ra $rar --dec $decr --radius 8 --runit arcmin --o tmp/${pidnm}4fgldr3.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 4FGL-DR4 --ra $rar --dec $decr --radius 8 --runit arcmin --o tmp/${pidnm}4fgldr4.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 3FHL --ra $rar  --dec $decr --radius 7 --runit arcmin --o tmp/${pidnm}3fhl.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 2BIGB --ra $rar  --dec $decr --radius 10 --runit arcmin --o tmp/${pidnm}2bigb.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog SPECFINDV3 --ra $rar  --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}specfindv3.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog EPRS --ra $rar  --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}eprs.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog RATAN-600 --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}ratan600.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog MM-MONITORING4 --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}mmmonitoring4.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PACO --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}paco.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog PACOPCCS --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}pacopccs.$nn.2.txt >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GLEAMV2 --ra $rar  --dec $decr --radius 20 --runit arcsec --o tmp/${pidnm}gleamv2.$nn.2.txt >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats2.ini --catalog 2AGILE --ra $rar  --dec $decr --radius 50 --runit arcmin --columns default -o tmp/${pidnm}2agile.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 1FLE --ra $rar  --dec $decr --radius 20 --runit arcmin --o tmp/${pidnm}fmev.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-#   echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FermiMeV --ra $ranh  --dec $decnh --radius 20  --runit arcmin --o tmp/${pidnm}oldfmev.1.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog 1FLE --ra $rar  --dec $decr --radius 20 --runit arcmin --o tmp/${pidnm}fmev.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+#   echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FermiMeV --ra $ranh  --dec $decnh --radius 20  --runit arcmin --o tmp/${pidnm}oldfmev.1.csv >> tmp/${pidnm}vosearch.txt
             echo specsearch --db ${HERE}/cats2.ini --service MAGIC --ra $rar  --dec $decr --radius 5 --runit arcmin --columns default -o tmp/${pidnm}magictt.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo specsearch --db ${HERE}/cats2.ini --service VERITAS --ra $rar  --dec $decr --radius 5 --runit arcmin --columns default -o tmp/${pidnm}veritas.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-            echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog WISEME --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}wiseme.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+            echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog WISEME --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}wiseme.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             echo conesearch --db ${HERE}/cats2.ini --catalog OULC --ra $rar --dec $decr --radius 15 --runit arcsec --columns default -o tmp/${pidnm}oulc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             if [ $allcatalog == y -o $allcatalog == Y ]; then
-               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog NEOWISE --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}neowise.$nn.2.csv --timeout 40 >> tmp/${pidnm}vosearch.txt
+               echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog NEOWISE --ra $rar --dec $decr --radius 10 --runit arcsec --o tmp/${pidnm}neowise.$nn.2.csv --timeout 40 >> tmp/${pidnm}vosearch.txt
             fi
             if [ $SITE == 'standard' ]; then
-               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog KUEHR --ra $rar --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}kuehr.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-#               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GLEAM --ra $rar --dec $decr --radius 50 --runit arcsec --o tmp/${pidnm}gleam.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog XMMOM --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}xmmom.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog UVOT --ra $rar  --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}uvot.$nn.2.csv >> tmp/${pidnm}vosearch.txt
-               echo python3.10 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FMonLC --ra $rar  --dec $decr --radius 15 --runit arcmin --o tmp/${pidnm}fmonlc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+               echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog KUEHR --ra $rar --dec $decr --radius 1 --runit arcmin --o tmp/${pidnm}kuehr.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+#               echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog GLEAM --ra $rar --dec $decr --radius 50 --runit arcsec --o tmp/${pidnm}gleam.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+               echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog XMMOM --ra $rar --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}xmmom.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+               echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog UVOT --ra $rar  --dec $decr --radius 5 --runit arcsec --o tmp/${pidnm}uvot.$nn.2.csv >> tmp/${pidnm}vosearch.txt
+               echo python3 ${HERE}/conesearch2.py --db ${HERE}/cats2.ini --catalog FMonLC --ra $rar  --dec $decr --radius 15 --runit arcmin --o tmp/${pidnm}fmonlc.$nn.2.csv >> tmp/${pidnm}vosearch.txt
             fi
 #            echo $rar $decr $typer $nn
             racand=$rar
@@ -957,48 +957,48 @@ do
       fi
       if [ $plotsed != N ]; then
          rm -rf tmp/${pidnm}vou-aladin-error.html
-         python3.10 ${HERE}/aladin_error_map.py --ra $racand --dec $deccand --input_file_error_circles tmp/${pidnm}error_map.txt --out tmp/vou-aladin-error-py.html
+         python3 ${HERE}/aladin_error_map.py --ra $racand --dec $deccand --input_file_error_circles tmp/${pidnm}error_map.txt --out tmp/vou-aladin-error-py.html
          open tmp/${pidnm}vou-aladin-error-py.html
       fi
       [ $showsed == 'osed' ] && open tmp/${pidnm}Sed.txt
 ##############################################################
 # Write data from additional catalogs via cat2sed.py and add to Sed.txt
       if [ -f tmp/specfindv3.1.2.txt ]; then
-         python3.10 ${HERE}/cat2sed.py --input_file tmp/specfindv3.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         python3 ${HERE}/cat2sed.py --input_file tmp/specfindv3.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
          cat tmp/4sed.csv >> tmp/Sed.txt
       fi
       if [ -f tmp/mmmonitoring4.1.2.txt ]; then
-         python3.10 ${HERE}/cat2sed.py --input_file tmp/mmmonitoring4.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         python3 ${HERE}/cat2sed.py --input_file tmp/mmmonitoring4.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
          cat tmp/4sed.csv >> tmp/Sed.txt
       fi
       if [ -f tmp/eprs.1.2.txt ]; then
-         python3.10 ${HERE}/cat2sed.py --input_file tmp/eprs.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         python3 ${HERE}/cat2sed.py --input_file tmp/eprs.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
          cat tmp/4sed.csv >> tmp/Sed.txt
       fi
       if [ -f tmp/gleamv2.1.2.txt ]; then
-         python3.10 ${HERE}/cat2sed.py --input_file tmp/gleamv2.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         python3 ${HERE}/cat2sed.py --input_file tmp/gleamv2.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
          cat tmp/4sed.csv >> tmp/Sed.txt
       fi
       if [ -f tmp/ratan600.1.2.txt ]; then
-         python3.10 ${HERE}/cat2sed.py --input_file tmp/ratan600.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         python3 ${HERE}/cat2sed.py --input_file tmp/ratan600.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
          cat tmp/4sed.csv >> tmp/Sed.txt
       fi
       if [ -f tmp/paco.1.2.txt ]; then
-         python3.10 ${HERE}/cat2sed.py --input_file tmp/paco.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         python3 ${HERE}/cat2sed.py --input_file tmp/paco.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
          cat tmp/4sed.csv >> tmp/Sed.txt
       fi
       if [ -f tmp/pacopccs.1.2.txt ]; then
-         python3.10 ${HERE}/cat2sed.py --input_file tmp/pacopccs.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
+         python3 ${HERE}/cat2sed.py --input_file tmp/pacopccs.1.2.txt --output tmp/4sed.csv --refs_file  ${HERE}/catrefs.txt
          cat tmp/4sed.csv >> tmp/Sed.txt
       fi
 #for SED builder tool and future catalog
       rm -f tmp/${pidnm}Out4SedTool.txt
       rased=`echo $racand | sed 's/\./_/g'`
       decsed=`echo $deccand | sed 's/\./_/g' | sed 's/-/m/g'`
-      python3.10 ${HERE}/convert_sed.py tmp/${pidnm}Sed.txt tmp/${pidnm}Out4SedTool.txt tmp/${pidnm}Sed.csv
+      python3 ${HERE}/convert_sed.py tmp/${pidnm}Sed.txt tmp/${pidnm}Out4SedTool.txt tmp/${pidnm}Sed.csv
       if [ $runmode != l -a $plotsed != N ]; then
          rm -f tmp/${pidnm}PySED.png
-         python3.10 ${HERE}/All-SED.py --xaxis f --infile1 tmp/${pidnm}Sed.csv --outfile tmp/${pidnm}PySED.png --title 'Source nr. '$source' RA='$racand' Dec='$deccand --upperlimits 'no' --erosita 'yes' --Show 'no'
+         python3 ${HERE}/All-SED.py --xaxis f --infile1 tmp/${pidnm}Sed.csv --outfile tmp/${pidnm}PySED.png --title 'Source nr. '$source' RA='$racand' Dec='$deccand --upperlimits 'no' --erosita 'yes' --Show 'no'
          open tmp/${pidnm}PySED.png
       fi
 ##############################################################
