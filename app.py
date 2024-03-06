@@ -75,6 +75,13 @@ class CSVHandler:
         for catalog in Config.EXCLUDED_CATALOGS:
             df = df[~df['catalog'].str.contains(catalog, case=False, na=False)].copy()
 
+        # Format specified columns as scientific notation
+        columns_to_format = ['freq. ', 'flux ', 'err_flux ']
+        for column in columns_to_format:
+            # Ensure the column exists in the DataFrame to avoid KeyErrors
+            if column in df.columns:
+                df[column] = df[column].apply(lambda x: "{:.4e}".format(x))
+
         # Define the output path for the processed CSV file
         # Updated to include RA, DEC, and RADIUS in the filename
         output_filename = "/work_dir/{}_{}_{}.csv".format(ra, dec, radius)
