@@ -81,6 +81,8 @@ RUN chmod +x ./bin/vou-blazars-hybrid.sh
 
 # Copy the Python script to the container
 COPY app.py .
+COPY ztf .
+COPY conesearch_files ./conesearch_files
 
 # Define a volume for the /work_dir directory
 VOLUME /work_dir

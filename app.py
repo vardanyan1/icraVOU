@@ -5,7 +5,6 @@ import errno
 import logging
 import argparse
 import subprocess
-from time import sleep
 
 import pandas as pd
 
@@ -70,7 +69,7 @@ class CSVHandler:
         df = pd.read_csv(filepath, encoding='utf-8')
 
         # Sort the DataFrame by frequency
-        df = df.sort_values(by='freq.')
+        df = df.sort_values(by='freq. ')
 
         # Exclude specific catalogs if needed
         for catalog in Config.EXCLUDED_CATALOGS:
@@ -143,10 +142,7 @@ class VouBlazarsHandler:
             self.error_handler.log_error("File not found: {}".format(src_txt_filepath))
             raise IOError(errno.ENOENT, os.strerror(errno.ENOENT), src_txt_filepath)
 
-        # Move the Sed.txt file
-        dest_txt_filepath = os.path.join("/w_peak", "Sed.txt")
-        self.file_manager.move_file(src_txt_filepath, dest_txt_filepath)
-        self.error_handler.log_info("Sed.txt moved to w_peak directory.")
+        self.error_handler.log_info("handle files Done...")
 
     def execute_data_queries(self):
         """
@@ -176,16 +172,6 @@ class VouBlazarsHandler:
         return output_filename
 
     def execute_scripts(self):
-        # Change the working directory and run neowise.sh
-        self.cmd_executor.change_working_directory("/w_peak")
-        self.cmd_executor.execute(["./neowise.sh"])
-        self.error_handler.log_info("neowise.sh script executed.")
-
-        # Change the working directory and run VOU
-        self.cmd_executor.change_working_directory("/VOU_Blazars")
-
-        wisestat_path = '/w_peak/wisestat.txt'
-        self.w_peak = self.file_manager.extract_value_from_wisestat(wisestat_path)
 
         csv_filepath = os.path.join("/VOU_Blazars/tmp", "Sed.csv")
         if not self.file_manager.check_file_exists(csv_filepath):

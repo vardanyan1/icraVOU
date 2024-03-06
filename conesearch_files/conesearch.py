@@ -25,17 +25,22 @@ def query_data(ra, dec, radius, path, catalog_name):
     filtered_df = filter_rows(data_df, ra, dec, radius)
 
     if not filtered_df.empty:
-        filtered_df['catalog'] = catalog_name
-        filtered_df['reference'] = catalog_name
+        # Use .copy() to ensure we're working with a DataFrame copy and avoid SettingWithCopyWarning
+        filtered_df = filtered_df.copy()
 
-        filtered_df.rename(columns={
+        # Use .loc to safely assign new columns
+        filtered_df.loc[:, 'catalog'] = catalog_name
+        filtered_df.loc[:, 'reference'] = catalog_name
+
+        # Use .rename method without inplace to avoid potential issues and return the modified DataFrame
+        filtered_df = filtered_df.rename(columns={
             'Frequency': 'freq. ',
             'Flux': 'flux ',
             'dFlux': 'err_flux ',
             'MJD_start': 'MJD_start ',
             'MJD_end': 'MJD_end ',
             'Flag': 'flag'
-        }, inplace=True)
+        })
 
     return filtered_df
 
