@@ -64,7 +64,7 @@ class CSVHandler:
 
         return df
 
-    def handle_csv_data(self, filepath):
+    def handle_csv_data(self, filepath, ra, dec, radius):
         # Load the CSV file
         df = pd.read_csv(filepath, encoding='utf-8')
 
@@ -76,12 +76,13 @@ class CSVHandler:
             df = df[~df['catalog'].str.contains(catalog, case=False, na=False)].copy()
 
         # Define the output path for the processed CSV file
-        output_filepath = os.path.join("/work_dir/", "processed_data.csv")
+        # Updated to include RA, DEC, and RADIUS in the filename
+        output_filename = "/work_dir/{}_{}_{}.csv".format(ra, dec, radius)
 
         # Write the processed DataFrame to a CSV file
-        df.to_csv(output_filepath, index=False)
+        df.to_csv(output_filename, index=False)
 
-        logging.info("Processed CSV data has been written to {}".format(output_filepath))
+        logging.info("Processed CSV data has been written to {}".format(output_filename))
 
 
 class CommandExecutor:
@@ -208,12 +209,12 @@ class VouBlazarsHandler:
         if len(files_to_concatenate) > 1:
             self.error_handler.log_info("Handling combined data...")
             self.csv_handler.concatenate_csv_files_with_pandas(files_to_concatenate, combined_csv_filepath)
-            self.csv_handler.handle_csv_data(combined_csv_filepath)
+            self.csv_handler.handle_csv_data(combined_csv_filepath, self.ra, self.dec, Config.RADIUS)
             self.error_handler.log_info("Finished handling combined data.")
         else:
             # Only Sed.csv is available; handle it directly
             self.error_handler.log_info("Handling Sed.csv...")
-            self.csv_handler.handle_csv_data(self.csv_filepath)
+            self.csv_handler.handle_csv_data(self.csv_filepath, self.ra, self.dec, Config.RADIUS)
             self.error_handler.log_info("Finished handling Sed.csv.")
 
 
