@@ -2,6 +2,8 @@ import argparse
 import io
 import os
 import re
+import sys
+
 import astroquery.exceptions
 import pandas as pd
 import requests
@@ -158,8 +160,7 @@ def query_ztf_data(coordinates):
     # noinspection PyTypeChecker
     data_df = pd.read_csv(io.StringIO(requested_data.decode('utf-8')))
     if data_df.size == 0:
-        print('There are no Zwicky observations for this source.')
-        raise Exception('There are no Zwicky observations for this source.')
+        sys.exit(1)
     return data_df, url
 
 
