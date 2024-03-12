@@ -6,6 +6,11 @@ import glob
 import pandas as pd
 from astropy.coordinates import SkyCoord
 import astropy.units as u
+import logging
+
+# Set up basic configuration for logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 
 def filter_rows(df, target_ra, target_dec, max_distance):
@@ -80,14 +85,14 @@ if __name__ == "__main__":
 
     try:
         output_file = main(args.ra, args.dec, args.radius)
-        print(f"Data combined and output to {output_file}")
+        logging.info(f"Data combined and output to {output_file}")
     except IOError as e:
         if e.errno == errno.ENOENT:
-            sys.stderr.write(f"FileNotFoundError occurred: {e}\n")
+            logging.error(f"FileNotFoundError occurred: {e}")
             sys.exit(2)
         else:
-            sys.stderr.write(f"An IOError occurred: {e}\n")
+            logging.error(f"An IOError occurred: {e}")
             sys.exit(1)
     except Exception as e:
-        sys.stderr.write(f"An error occurred: {e}\n")
+        logging.error(f"An error occurred: {e}")
         sys.exit(1)

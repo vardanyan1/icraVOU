@@ -171,7 +171,10 @@ class VouBlazarsHandler:
             self.ra, self.dec, Config.RADIUS))
 
         # Move the file back to the main directory
-        self.file_manager.move_file(output_filename, os.path.join("../", output_filename))
+        try:
+            self.file_manager.move_file(output_filename, os.path.join("../", output_filename))
+        except Exception as e:
+            self.error_handler.log_warning("An error occurred while moving the file: {}".format(e))
 
         # Change directory back to the main directory
         self.cmd_executor.change_working_directory("..")
